@@ -1,0 +1,129 @@
+.register-container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, #e3f0ff 0%, #c7d2fe 100%);
+  padding: 1rem;
+}
+.register-card {
+  max-width: 500px;
+  width: 100%;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+.register-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.register-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.register-logo-bg {
+  background: #2563eb;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.register-logo {
+  width: 2rem;
+  height: 2rem;
+  color: #fff;
+}
+.register-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #111827;
+}
+.register-subtitle {
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+.register-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.register-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+.register-password-wrapper,
+.register-confirm-password-wrapper {
+  position: relative;
+}
+.register-password-toggle,
+.register-confirm-password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 2.25rem;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+.register-password-toggle:hover,
+.register-confirm-password-toggle:hover {
+  color: #374151;
+}
+.register-password-icon,
+.register-confirm-password-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.register-terms-wrapper {
+  display: flex;
+  align-items: flex-start;
+}
+.register-terms-checkbox {
+  margin-top: 0.25rem;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  accent-color: #2563eb;
+}
+.register-terms-text {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+.register-terms-link {
+  color: #2563eb;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.register-terms-link:hover {
+  color: #1e40af;
+}
+.register-submit-btn {
+  width: 100%;
+}
+.register-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.register-footer-text {
+  color: #6b7280;
+}
+.register-switch-btn {
+  color: #2563eb;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.register-switch-btn:hover {
+  color: #1e40af;
+} 

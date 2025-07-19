@@ -1,0 +1,469 @@
+/* Dashboard Container */
+.dashboard-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: #f9fafb;
+}
+
+/* Header */
+.dashboard-header {
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+  border-bottom: 1px solid #e5e7eb;
+}
+.dashboard-header-inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.dashboard-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #111827;
+}
+.dashboard-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+}
+.dashboard-add-expense-btn {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.dashboard-add-expense-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Main Content */
+.dashboard-main-content {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.dashboard-summary-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+@media (min-width: 768px) {
+  .dashboard-summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .dashboard-summary-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.dashboard-summary-card {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+.dashboard-summary-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dashboard-summary-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+.dashboard-summary-amount {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #111827;
+}
+.dashboard-summary-trend {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+.dashboard-trend-up {
+  color: #dc2626;
+}
+.dashboard-trend-down {
+  color: #16a34a;
+}
+.dashboard-summary-trend-value {
+  margin-left: 0.25rem;
+}
+.dashboard-summary-icon-wrapper {
+  padding: 0.75rem;
+  background: #eff6ff;
+  border-radius: 9999px;
+}
+.dashboard-summary-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #2563eb;
+}
+
+/* Main Grid */
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .dashboard-main-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Recent Expenses */
+.dashboard-recent-expenses {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+}
+.dashboard-recent-expenses-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.dashboard-recent-expenses-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard-recent-expenses-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+.dashboard-view-all-btn {
+  color: #2563eb;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.dashboard-view-all-btn:hover {
+  color: #1e40af;
+}
+.dashboard-recent-expenses-list {
+  padding: 1.5rem;
+}
+.dashboard-recent-expense-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+.dashboard-recent-expense-item:last-child {
+  border-bottom: none;
+}
+.dashboard-recent-expense-info {
+  flex: 1;
+}
+.dashboard-recent-expense-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111827;
+}
+.dashboard-recent-expense-category {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+.dashboard-recent-expense-amount {
+  text-align: right;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+.dashboard-no-expenses {
+  text-align: center;
+  padding: 2rem 0;
+  color: #6b7280;
+}
+
+/* Quick Actions & Categories */
+.dashboard-quick-actions-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.dashboard-quick-actions {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+}
+.dashboard-quick-actions-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+.dashboard-quick-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.dashboard-quick-action-btn {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: none;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.dashboard-quick-action-btn:hover {
+  background: #f1f5f9;
+}
+.dashboard-quick-action-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.dashboard-quick-action-icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #2563eb;
+}
+.dashboard-quick-action-icon-green {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #16a34a;
+}
+.dashboard-quick-action-icon-purple {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #a21caf;
+}
+.dashboard-quick-action-label {
+  font-weight: 500;
+  color:#2563eb;
+}
+
+/* Top Categories */
+.dashboard-top-categories {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+}
+.dashboard-top-categories-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+.dashboard-top-categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.dashboard-top-category-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard-top-category-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+.dashboard-top-category-amount {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+}
+.dashboard-top-category-bar-bg {
+  width: 100%;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  height: 0.5rem;
+}
+.dashboard-top-category-bar-blue {
+  background: #2563eb;
+  height: 0.5rem;
+  border-radius: 9999px;
+}
+.dashboard-top-category-bar-green {
+  background: #16a34a;
+  height: 0.5rem;
+  border-radius: 9999px;
+}
+.dashboard-top-category-bar-purple {
+  background: #a21caf;
+  height: 0.5rem;
+  border-radius: 9999px;
+} 
+
+.dashboard-logout-btn{
+  color:red;
+  
+}
+/* Add these styles to your existing dashboard.css file */
+
+/* Header Actions */
+.dashboard-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dashboard-refresh-btn {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.dashboard-refresh-btn:hover {
+  background: #e5e7eb;
+}
+
+.dashboard-user-name {
+  font-weight: 600;
+  color: #374151;
+  margin-left: auto;
+}
+
+/* Loading and Error States */
+.dashboard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #6b7280;
+}
+
+.dashboard-loading-icon {
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.dashboard-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #dc2626;
+  text-align: center;
+}
+
+.dashboard-retry-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  transition: all 0.2s;
+}
+
+.dashboard-retry-btn:hover {
+  background: #b91c1c;
+}
+
+/* No Expenses State */
+.dashboard-no-expenses {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.dashboard-add-first-expense-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  transition: all 0.2s;
+}
+
+.dashboard-add-first-expense-btn:hover {
+  background: #2563eb;
+}
+
+/* Category Items */
+.dashboard-category-item {
+  margin-bottom: 1rem;
+}
+
+.dashboard-no-categories {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+/* Additional color variants for category bars */
+.dashboard-top-category-bar-orange {
+  background: #f97316;
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.dashboard-top-category-bar-red {
+  background: #ef4444;
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* AddExpenseForm styles */
