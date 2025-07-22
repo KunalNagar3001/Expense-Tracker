@@ -101,7 +101,7 @@ export default function Register({ onSwitchToLogin, onRegister }) {
               </div>
             </div>
             <h2 className="register-title">Create Account</h2>
-            <p className="register-subtitle">Start tracking your expenses today</p>
+            <p className="register-subtitle">Start tracking your expenses today with Expenzo</p>
           </div>
 
           <form className="register-form-wrapper" onSubmit={handleSubmit}>
