@@ -1,0 +1,155 @@
+/* Expenses-specific styles moved from dashboard.css */
+.recent-expenses {
+  background: #fff;
+  /* border-radius: 0.75rem; */
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+  width: 80vw;
+}
+.recent-expenses-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.recent-expenses-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.recent-expenses-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+.view-all-btn {
+  color: #2563eb;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.view-all-btn:hover {
+  color: #1e40af;
+}
+.recent-expenses-list {
+  padding: 1.5rem;
+}
+.recent-expense-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+.recent-expense-item:last-child {
+  border-bottom: none;
+}
+.recent-expense-info {
+  flex: 1;
+}
+.recent-expense-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111827;
+}
+.recent-expense-category {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+.recent-expense-amount {
+  text-align: right;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+.no-expenses {
+  text-align: center;
+  padding: 2rem 0;
+  color: #6b7280;
+}
+.all-expenses {
+  background: #fff;
+  /* border-radius: 0.75rem; */
+  width: 80vw;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 2rem;
+  color: #111827;
+  height: 100%;
+
+}
+.all-expenses-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.all-expenses-list {
+  padding: 1.5rem;
+}
+.back-btn {
+  color: #2563eb;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #6b7280;
+}
+.loading-icon {
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.5rem;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.add-first-expense-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  transition: all 0.2s;
+}
+.add-first-expense-btn:hover {
+  background: #2563eb;
+}
+.logout-btn {
+  color: red;
+}
+.add-expense-btn {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.add-expense-btn:hover {
+  background: #1d4ed8;
+}

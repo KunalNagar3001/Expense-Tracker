@@ -3,11 +3,16 @@ import { PlusCircle, TrendingUp, TrendingDown, DollarSign, Calendar, BarChart3, 
 import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import AddExpenseForm from './AddExpenseForm';
+import Sidebar from './Sidebar';
+import CategoryPieChart from './CategoryPieChart';
+import BudgetProgress from './BudgetProgress';
+import SavingCard from './SavingCard';
 
-const Dashboard = ({ user, onLogout }) => {
+const Dashboard = ({ user: propUser, onLogout }) => {
+  const user = propUser || JSON.parse(localStorage.getItem('user'));
   if (!user) return null;
   console.log('Dashboard user:', user);
-  
+
   const [expenses, setExpenses] = useState([]);
   const [summaryData, setSummaryData] = useState({
     totalExpenses: 0,
@@ -31,6 +36,39 @@ const Dashboard = ({ user, onLogout }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   // API base URL - adjust this to match your backend
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+  const [categorySummary, setCategorySummary] = useState([]);
+  const budgets = {
+    "Food & Dining": 600,
+    "Transportation": 400,
+    "Entertainment": 200,
+    "Shopping": 250,
+    "Utilities": 300,
+  };
+
+  useEffect(() => {
+    const fetchCategorySummary = async () => {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_BASE_URL}/api/expenses/categories-summary`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCategorySummary(data);
+      }
+    };
+    fetchCategorySummary();
+  }, []);
+
+  const pieData = categorySummary.map(cat => ({
+    label: cat.category,
+    value: cat.total
+  }));
+  const PIE_COLORS = ["#3B82F6", "#22C55E", "#F59E42", "#EF4444", "#A78BFA", "#6366F1", "#F472B6", "#FACC15"];
+  const budgetProgress = categorySummary.map(cat => ({
+    label: cat.category || cat._id,
+    spent: cat.total,
+    budget: budgets[cat.category || cat._id] || 0
+  }));
 
   const handleLogout = () => {
     console.log('Dashboard handleLogout called');
@@ -48,11 +86,11 @@ const Dashboard = ({ user, onLogout }) => {
           'Content-Type': 'application/json'
         }
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch expense summary');
       }
-      
+
       const data = await response.json();
       setSummaryData(data);
     } catch (err) {
@@ -82,11 +120,11 @@ const Dashboard = ({ user, onLogout }) => {
           'Content-Type': 'application/json'
         }
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch recent expenses');
       }
-      
+
       const data = await response.json();
       setExpenses(data);
     } catch (err) {
@@ -128,7 +166,7 @@ const Dashboard = ({ user, onLogout }) => {
   const loadDashboardData = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       await Promise.all([
         fetchExpenseSummary(),
@@ -164,16 +202,17 @@ const Dashboard = ({ user, onLogout }) => {
         <div>
           <p className="dashboard-summary-title">{title}</p>
           <p className="dashboard-summary-amount">${amount.toFixed(2)}</p>
+          <div className="dashboard-summary-icon-wrapper">
+            <Icon className="dashboard-summary-icon" />
+          </div>
           {trend && (
-            <div className={`dashboard-summary-trend ${trend === 'up' ? 'dashboard-trend-up' : 'dashboard-trend-down'}`}> 
+            <div className={`dashboard-summary-trend ${trend === 'up' ? 'dashboard-trend-up' : 'dashboard-trend-down'}`}>
               {trend === 'up' ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
               <span className="dashboard-summary-trend-value">{trendValue}% from last period</span>
             </div>
           )}
         </div>
-        <div className="dashboard-summary-icon-wrapper">
-          <Icon className="dashboard-summary-icon" />
-        </div>
+
       </div>
     </div>
   );
@@ -311,7 +350,7 @@ const Dashboard = ({ user, onLogout }) => {
     const colors = ['blue', 'green', 'purple', 'orange', 'red'];
     const colorIndex = summaryData.topCategories.findIndex(cat => cat.category === category);
     const color = colors[colorIndex % colors.length];
-    
+
     return (
       <div className="dashboard-category-item">
         <div className="dashboard-top-category-row">
@@ -319,9 +358,9 @@ const Dashboard = ({ user, onLogout }) => {
           <span className="dashboard-top-category-amount">${amount.toFixed(2)}</span>
         </div>
         <div className="dashboard-top-category-bar-bg">
-          <div 
-            className={`dashboard-top-category-bar-${color}`} 
-            style={{width: `${percentage}%`}}
+          <div
+            className={`dashboard-top-category-bar-${color}`}
+            style={{ width: `${percentage}%` }}
           ></div>
         </div>
       </div>
@@ -343,7 +382,7 @@ const Dashboard = ({ user, onLogout }) => {
       const now = new Date();
       const startOfWeek = new Date(now);
       startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
-      startOfWeek.setHours(0,0,0,0);
+      startOfWeek.setHours(0, 0, 0, 0);
       return allExpenses.filter(exp => {
         const expDate = new Date(exp.date);
         return expDate >= startOfWeek && expDate <= now;
@@ -365,6 +404,24 @@ const Dashboard = ({ user, onLogout }) => {
     }
     return allExpenses;
   };
+
+  // Example data for pie chart and budget progress
+  const categoryData = [
+    { label: "Food & Dining", value: 485.50 },
+    { label: "Transportation", value: 320.25 },
+    { label: "Entertainment", value: 180.75 },
+    { label: "Shopping", value: 159.80 },
+    { label: "Utilities", value: 99.00 },
+  ];
+  const budgetData = [
+    { label: "Food & Dining", spent: 485.50, budget: 600 },
+    { label: "Transportation", spent: 320.25, budget: 400 },
+    { label: "Entertainment", spent: 180.75, budget: 200 },
+    { label: "Shopping", spent: 259.80, budget: 250 },
+    { label: "Utilities", spent: 150.00, budget: 300 },
+  ];
+
+  const monthlyTotal = summaryData.monthlyTotal || pieData.reduce((sum, c) => sum + c.value, 0);
 
   if (loading) {
     return (
@@ -392,246 +449,125 @@ const Dashboard = ({ user, onLogout }) => {
   }
 
   return (
-    <div className="dashboard-container">
-      {/* Header - Keeping original styling */}
-      <div className="dashboard-header">
-        <div className="dashboard-header-inner">
-          <div className="dashboard-header-row">
-            <div>
-              <h1 className="dashboard-title">Dashboard</h1>
-              <p className="dashboard-subtitle">Welcome back! Here's your expense overview.</p>
-            </div>
-            <button className="dashboard-add-expense-btn" onClick={() => setShowAddExpenseForm((prev) => !prev)}>
-              <PlusCircle size={20} />
-              Add Expense
-            </button>
-            <button onClick={handleRefresh} className="dashboard-refresh-btn" style={{ marginLeft: '0.5rem' }}>
-              <RefreshCw size={16} />
-            </button>
-            {/* Show user name to the left of logout button */}
-            <span style={{ marginLeft: '1rem', fontWeight: 'bold', color: "black" }}>{user?.name}</span>
-            <button className="dashboard-logout-btn" onClick={handleLogout} style={{ marginLeft: '1rem' }}>
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Show Add Expense Form if toggled */}
-      {showAddExpenseForm && (
-        <AddExpenseForm
-          API_BASE_URL={API_BASE_URL}
-          onExpenseAdded={() => {
-            setShowAddExpenseForm(false);
-            loadDashboardData();
-          }}
-          onCancel={() => setShowAddExpenseForm(false)}
-        />
-      )}
-
-      {/* Main Content */}
-      <div className="dashboard-main-content">
-        {/* Summary Cards */}
-        <div className="dashboard-summary-cards">
-          <SummaryCard 
-            title="Today's Expenses" 
-            amount={summaryData.todayTotal} 
-            icon={DollarSign}
-            trend="up"
-            trendValue="15"
-          />
-          <div onClick={() => {
-            fetchAllExpenses();
-            setExpenseFilter('week');
-            setViewAll(true);
-          }} style={{ cursor: 'pointer', boxShadow: expenseFilter === 'week' && viewAll ? '0 0 0 2px #2563eb' : undefined }}>
-            <SummaryCard 
-              title="This Week" 
-              amount={summaryData.weeklyTotal} 
-              icon={Calendar}
-              trend="down"
-              trendValue="8"
-            />
-          </div>
-          <div onClick={() => {
-            fetchAllExpenses();
-            setExpenseFilter('month');
-            setViewAll(true);
-          }} style={{ cursor: 'pointer', boxShadow: expenseFilter === 'month' && viewAll ? '0 0 0 2px #2563eb' : undefined }}>
-            <SummaryCard 
-              title="This Month" 
-              amount={summaryData.monthlyTotal} 
-              icon={BarChart3}
-              trend="up"
-              trendValue="23"
-            />
-          </div>
-          <SummaryCard 
-            title="Total Expenses" 
-            amount={summaryData.totalExpenses} 
-            icon={TrendingUp}
-          />
-        </div>
-
-        {/* Main Dashboard Grid */}
-        <div className="dashboard-main-grid">
-          {viewAll ? (
-            <div className="dashboard-all-expenses">
-              <div className="dashboard-all-expenses-header">
-                <h2>{expenseFilter === 'week' ? 'This Week\'s Expenses' : expenseFilter === 'month' ? 'This Month\'s Expenses' : expenseFilter === 'date' && selectedDate ? `Expenses on ${selectedDate}` : expenseFilter === 'category' && selectedCategory ? `Expenses in ${selectedCategory}` : 'All Expenses'}</h2>
-                <button className="dashboard-back-btn" onClick={() => { setViewAll(false); setExpenseFilter('all'); setSelectedDate(''); setSelectedCategory(''); }}>
-                  Back to Dashboard
-                </button>
+    <div className="dashboard-layout">
+      <Sidebar />
+      <div className="dashboard-main">
+        {/* Header */}
+        <header className="dashboard-header">
+          <div className="dashboard-header-inner">
+            <div className="dashboard-header-row">
+              <div>
+                <h1 className="dashboard-title">Welcome back {user?.name}!</h1>
+                <p className="dashboard-subtitle"> Here's your expense overview.</p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1rem 0' }}>
-                <input
-                  type="date"
-                  value={selectedDate}
-                  onChange={e => setSelectedDate(e.target.value)}
-                  style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db' }}
-                />
-                <button
-                  className="dashboard-view-all-btn"
-                  onClick={() => { if (selectedDate) setExpenseFilter('date'); }}
-                  disabled={!selectedDate}
-                >
-                  Search by Date
+              <div className="dashboard-header-actions">
+                <button className="dashboard-add-expense-btn" onClick={() => setShowAddExpenseForm((prev) => !prev)}>
+                  <PlusCircle size={20} />
+                  Add Expense
                 </button>
-                {expenseFilter === 'date' && selectedDate && (
-                  <button
-                    className="dashboard-view-all-btn"
-                    style={{ color: 'red' }}
-                    onClick={() => { setExpenseFilter('all'); setSelectedDate(''); }}
-                  >
-                    Clear Date Filter
-                  </button>
-                )}
-                <select
-                  value={selectedCategory}
-                  onChange={e => setSelectedCategory(e.target.value)}
-                  style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db' }}
-                >
-                  <option value="">Select Category</option>
-                  {categories.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-                <button
-                  className="dashboard-view-all-btn"
-                  onClick={() => { if (selectedCategory) setExpenseFilter('category'); }}
-                  disabled={!selectedCategory}
-                >
-                  Search by Category
+                <button onClick={handleRefresh} className="dashboard-refresh-btn">
+                  <RefreshCw size={16} />
                 </button>
-                {expenseFilter === 'category' && selectedCategory && (
-                  <button
-                    className="dashboard-view-all-btn"
-                    style={{ color: 'red' }}
-                    onClick={() => { setExpenseFilter('all'); setSelectedCategory(''); }}
-                  >
-                    Clear Category Filter
-                  </button>
-                )}
-              </div>
-              <div className="dashboard-all-expenses-list">
-                {allExpensesLoading ? (
-                  <div className="dashboard-loading">
-                    <RefreshCw className="dashboard-loading-icon" />
-                    <p>Loading all expenses...</p>
-                  </div>
-                ) : getFilteredExpenses().length > 0 ? (
-                  getFilteredExpenses().map(expense => (
-                    <RecentExpenseItem key={expense._id || expense.id} expense={expense} />
-                  ))
-                ) : (
-                  <div className="dashboard-no-expenses">
-                    <p>No expenses yet. Add your first expense to get started!</p>
-                  </div>
-                )}
+                <span className="dashboard-user-name">{user?.name}</span>
+                <button className="dashboard-logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
               </div>
             </div>
-          ) : (
-            <>
-              {/* Recent Expenses */}
-              <div className="dashboard-recent-expenses">
-                <div className="dashboard-recent-expenses-header">
-                  <div className="dashboard-recent-expenses-row">
-                    <h2 className="dashboard-recent-expenses-title">Recent Expenses</h2>
-                    <button className="dashboard-view-all-btn" onClick={() => {
-                      fetchAllExpenses();
-                      setViewAll(true);
-                    }}>
-                      View All
-                    </button>
-                  </div>
-                </div>
-                <div className="dashboard-recent-expenses-list">
-                  {expenses.length > 0 ? (
-                    expenses.slice(0, 5).map(expense => (
-                      <RecentExpenseItem key={expense._id || expense.id} expense={expense} />
-                    ))
-                  ) : (
-                    <div className="dashboard-no-expenses">
-                      <p>No expenses yet. Add your first expense to get started!</p>
-                      <button className="dashboard-add-first-expense-btn">
-                        <PlusCircle size={16} />
-                        Add First Expense
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Quick Actions & Categories */}
-              <div className="dashboard-quick-actions-categories">
-                {/* Quick Actions */}
-                <div className="dashboard-quick-actions">
-                  <h3 className="dashboard-quick-actions-title">Quick Actions</h3>
-                  <div className="dashboard-quick-actions-list">
-                    <button className="dashboard-quick-action-btn">
-                      <div className="dashboard-quick-action-inner">
-                        <PlusCircle className="dashboard-quick-action-icon" />
-                        <span className="dashboard-quick-action-label">Add New Expense</span>
-                      </div>
-                    </button>
-                    <button className="dashboard-quick-action-btn">
-                      <div className="dashboard-quick-action-inner">
-                        <BarChart3 className="dashboard-quick-action-icon-green" />
-                        <span className="dashboard-quick-action-label">View Analytics</span>
-                      </div>
-                    </button>
-                    <button className="dashboard-quick-action-btn">
-                      <div className="dashboard-quick-action-inner">
-                        <Calendar className="dashboard-quick-action-icon-purple" />
-                        <span className="dashboard-quick-action-label">Monthly Report</span>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Top Categories */}
-                <div className="dashboard-top-categories">
-                  <h3 className="dashboard-top-categories-title">Top Categories</h3>
-                  <div className="dashboard-top-categories-list">
-                    {summaryData.topCategories.length > 0 ? (
-                      summaryData.topCategories.map((category, index) => (
-                        <CategoryBar
-                          key={category.category}
-                          category={category.category}
-                          amount={category.amount}
-                          maxAmount={summaryData.topCategories[0]?.amount || 0}
-                        />
-                      ))
-                    ) : (
-                      <div className="dashboard-no-categories">
-                        <p>No expense categories yet.</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </>
+          </div>
+        </header>
+        {/* Main dashboard content goes here */}
+        <div className="dashboard-container">
+          {/* Show Add Expense Form if toggled */}
+          {showAddExpenseForm && (
+            <AddExpenseForm
+              API_BASE_URL={API_BASE_URL}
+              onExpenseAdded={() => {
+                setShowAddExpenseForm(false);
+                loadDashboardData();
+              }}
+              onCancel={() => setShowAddExpenseForm(false)}
+            />
           )}
+          {/* Main Content */}
+          <div className="dashboard-main-content">
+            {/* Summary Cards */}
+            <div className="dashboard-summary-cards">
+              <SummaryCard
+                title="Today's Expenses"
+                amount={summaryData.todayTotal}
+                icon={DollarSign}
+                trend="up"
+                trendValue="15"
+              />
+              <div onClick={() => {
+                fetchAllExpenses();
+                setExpenseFilter('week');
+                setViewAll(true);
+              }} style={{ cursor: 'pointer', boxShadow: expenseFilter === 'week' && viewAll ? '0 0 0 2px #2563eb' : undefined }}>
+                <SummaryCard
+                  title="This Week"
+                  amount={summaryData.weeklyTotal}
+                  icon={Calendar}
+                  trend="down"
+                  trendValue="8"
+                />
+              </div>
+              <div onClick={() => {
+                fetchAllExpenses();
+                setExpenseFilter('month');
+                setViewAll(true);
+              }} style={{ cursor: 'pointer', boxShadow: expenseFilter === 'month' && viewAll ? '0 0 0 2px #2563eb' : undefined }}>
+                <SummaryCard
+                  title="This Month"
+                  amount={summaryData.monthlyTotal}
+                  icon={BarChart3}
+                  trend="up"
+                  trendValue="23"
+                />
+              </div>
+              <SummaryCard
+                title="Total Expenses"
+                amount={summaryData.totalExpenses}
+                icon={TrendingUp}
+              />
+            </div>
+            {/* Main Dashboard Grid */}
+            <div className="dashboard-main-grid">
+              {/* <div> */}
+                {/* Pie Chart Card */}
+                <div className="dashboard-card">
+                  <h3 className="dashboard-card-title">Expense Categories</h3>
+                  <CategoryPieChart categories={pieData} centerLabel={monthlyTotal} />
+                  <div style={{ marginTop: 16 }}>
+                    {pieData.map((cat, i) => (
+                      <div key={cat.label || i} style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
+                        <span style={{
+                          display: "inline-block",
+                          width: 14,
+                          height: 14,
+                          borderRadius: "50%",
+                          background: PIE_COLORS[i % PIE_COLORS.length],
+                          marginRight: 8,
+                        }} />
+                        <span style={{ minWidth: 120, color: 'black', fontSize: 16 }}>{cat.label || "Unknown"}</span>
+                        <span style={{ fontWeight: 500, marginLeft: "auto", color: 'black', fontSize: 16 }}>
+                          ${typeof cat.value === 'number' ? cat.value.toFixed(2) : cat.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <SavingCard />
+                {/* Budget Progress Card */}
+                <div className="dashboard-card">
+                  <h3 className="dashboard-card-title">Budget Progress</h3>
+                  <BudgetProgress budgets={budgetProgress} />
+                </div>
+                
+                
+            </div>
+          </div>
         </div>
       </div>
     </div>

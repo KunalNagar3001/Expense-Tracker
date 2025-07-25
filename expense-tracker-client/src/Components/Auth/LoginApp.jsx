@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
 import Dashboard from '../Dashboard/DashBoard.jsx';
@@ -6,10 +7,13 @@ import Dashboard from '../Dashboard/DashBoard.jsx';
 const LoginApp = () => {
   const [currentView, setCurrentView] = useState('login');
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   const handleLogin = (userData) => {
     setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
     setCurrentView('dashboard');
+    navigate('/dashboard'); // Redirect to /dashboard after login
   };
 
   const handleRegister = (formData) => {
@@ -22,8 +26,10 @@ const LoginApp = () => {
     console.log('LoginApp handleLogout called');
     localStorage.removeItem('token');
     localStorage.removeItem('userName');
+    localStorage.removeItem('user'); // Remove user from localStorage
     setUser(null);
     setCurrentView('login');
+    navigate('/'); // Redirect to login page
   };
 
   useEffect(() => {

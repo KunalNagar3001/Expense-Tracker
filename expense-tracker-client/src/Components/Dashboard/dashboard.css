@@ -1,7 +1,12 @@
+.dashboard-layout{
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
 /* Dashboard Container */
 .dashboard-container {
   min-height: 100vh;
-  width: 100vw;
+  width: 80vw;
   background: #f9fafb;
 }
 
@@ -55,16 +60,17 @@
 .dashboard-main-content {
   max-width: 80rem;
   margin: 0 auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 2rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 3rem;
   padding-bottom: 2rem;
 }
 .dashboard-summary-cards {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(4,250px);
   gap: 1.5rem;
   margin-bottom: 2rem;
+  
 }
 @media (min-width: 768px) {
   .dashboard-summary-cards {
@@ -82,6 +88,8 @@
   box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
   padding: 1.5rem;
   border: 1px solid #e5e7eb;
+  width: 240px;
+  height: 180px;
 }
 .dashboard-summary-card-header {
   display: flex;
@@ -117,94 +125,49 @@
   padding: 0.75rem;
   background: #eff6ff;
   border-radius: 9999px;
+  width: 50px;
 }
 .dashboard-summary-icon {
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 1 rem;
+  width: 1 rem;
   color: #2563eb;
 }
 
 /* Main Grid */
 .dashboard-main-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 2rem;
+  /* max-width: 1200px; */
+  margin: 2rem 0rem;
+  width: 100%;
+  
 }
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
   .dashboard-main-grid {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
+  }
+  .dashboard-side-section {
+    margin-top: 2rem;
   }
 }
-
-/* Recent Expenses */
-.dashboard-recent-expenses {
+.dashboard-side-section {
+  display: flex;
+  flex-direction: column;
+}
+.dashboard-card {
   background: #fff;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
-  border: 1px solid #e5e7eb;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
 }
-.dashboard-recent-expenses-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-.dashboard-recent-expenses-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.dashboard-recent-expenses-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #111827;
-}
-.dashboard-view-all-btn {
-  color: #2563eb;
-  background: none;
-  border: none;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.dashboard-view-all-btn:hover {
-  color: #1e40af;
-}
-.dashboard-recent-expenses-list {
-  padding: 1.5rem;
-}
-.dashboard-recent-expense-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid #f3f4f6;
-}
-.dashboard-recent-expense-item:last-child {
-  border-bottom: none;
-}
-.dashboard-recent-expense-info {
-  flex: 1;
-}
-.dashboard-recent-expense-title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #111827;
-}
-.dashboard-recent-expense-category {
-  font-size: 0.75rem;
-  color: #6b7280;
-}
-.dashboard-recent-expense-amount {
-  text-align: right;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #111827;
-}
-.dashboard-no-expenses {
-  text-align: center;
-  padding: 2rem 0;
-  color: #6b7280;
+.dashboard-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #22223b;
 }
 
 /* Quick Actions & Categories */
@@ -467,3 +430,4 @@
 }
 
 /* AddExpenseForm styles */
+

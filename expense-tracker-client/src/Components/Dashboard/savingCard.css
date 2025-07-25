@@ -1,0 +1,9 @@
+.saving-card {
+  background-color: #fff;
+  border-radius: 1.5rem;
+  padding: 20px;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+  color:black;
+  margin-bottom:30px;
+}

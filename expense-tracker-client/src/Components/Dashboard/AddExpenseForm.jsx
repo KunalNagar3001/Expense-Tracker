@@ -80,6 +80,7 @@ const AddExpenseForm = ({ API_BASE_URL, onExpenseAdded, onCancel }) => {
             <option value="Entertainment">Entertainment</option>
             <option value="Shopping">Shopping</option>
             <option value="Health">Health</option>
+            {/* <option value="Savings">Savings</option> */}
             <option value="Other">Other</option>
           </select>
           <input

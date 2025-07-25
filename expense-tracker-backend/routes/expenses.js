@@ -107,6 +107,25 @@ router.get('/allexpenses', authenticateToken, async (req, res) => {
   }
 });
 
+// GET /api/expenses/categories-summary - Get all category totals for the user
+router.get('/expenses/categories-summary', authenticateToken, async (req, res) => {
+  try {
+    const userId = new mongoose.Types.ObjectId(req.user.id);
+    const categoryTotals = await Expense.aggregate([
+      { $match: { userId } },
+      { $group: { _id: '$category', total: { $sum: '$amount' } } },
+      { $sort: { total: -1 } }
+    ]);
+    res.json(categoryTotals.map(cat => ({
+      category: cat._id,
+      total: cat.total
+    })));
+  } catch (error) {
+    console.error('Error fetching category summary:', error);
+    res.status(500).json({ error: 'Failed to fetch category summary' });
+  }
+});
+
 // POST /api/expenses - Create new expense
 router.post('/expenses', authenticateToken, async (req, res) => {
   try {
