@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import User from './User.js';
 import expenseRoutes from './routes/expenses.js';
+import savingsRoutes from './routes/savings.js';
 
 dotenv.config();
 
@@ -15,6 +16,9 @@ app.use(express.json());
 
 // Mount the expense routes
 app.use('/api', expenseRoutes);
+
+// Mount the savings routes
+app.use('/api', savingsRoutes);
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/Expense-Tracker', {
@@ -90,4 +94,10 @@ app.listen(PORT, () => {
   console.log('  GET /api/expenses/recent');
   console.log('  GET /api/allexpenses');
   console.log('  POST /api/expenses');
+  console.log('  GET /api/savings');
+  console.log('  GET /api/savings/summary');
+  console.log('  POST /api/savings');
+  console.log('  PUT /api/savings/:id');
+  console.log('  PATCH /api/savings/:id/amount');
+  console.log('  DELETE /api/savings/:id');
 });

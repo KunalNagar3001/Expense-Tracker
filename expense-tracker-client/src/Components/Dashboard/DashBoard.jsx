@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import CategoryPieChart from './CategoryPieChart';
 import BudgetProgress from './BudgetProgress';
 import SavingCard from './SavingCard';
+import Graph from './Graph';
 
 const Dashboard = ({ user: propUser, onLogout }) => {
   const user = propUser || JSON.parse(localStorage.getItem('user'));
@@ -532,6 +533,9 @@ const Dashboard = ({ user: propUser, onLogout }) => {
                 icon={TrendingUp}
               />
             </div>
+            {/* Monthly Spending Trend Graph */}
+            {/* <Graph /> */}
+            
             {/* Main Dashboard Grid */}
             <div className="dashboard-main-grid">
               {/* <div> */}
@@ -559,12 +563,13 @@ const Dashboard = ({ user: propUser, onLogout }) => {
                   </div>
                 </div>
                 <SavingCard />
+                <Graph/>
                 {/* Budget Progress Card */}
                 <div className="dashboard-card">
                   <h3 className="dashboard-card-title">Budget Progress</h3>
                   <BudgetProgress budgets={budgetProgress} />
                 </div>
-                
+                {/* <Graph/> */}
                 
             </div>
           </div>

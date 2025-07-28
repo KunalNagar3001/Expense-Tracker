@@ -1,0 +1,205 @@
+.savings-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+    margin-bottom: 1.5rem;
+}
+
+.savings-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+.savings-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.savings-card-title-section {
+    flex: 1;
+}
+
+.savings-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+}
+
+.savings-card-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.savings-card-status,
+.savings-card-priority {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.savings-card-category {
+    background-color: #f3f4f6;
+    color: #374151;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.savings-card-progress {
+    margin-bottom: 1.5rem;
+}
+
+.savings-card-progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.savings-card-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.savings-card-goal {
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+.savings-card-progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.savings-card-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.savings-card-progress-percentage {
+    text-align: right;
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.savings-card-details {
+    margin-bottom: 1.5rem;
+}
+
+.savings-card-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.savings-card-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.savings-card-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.savings-card-value {
+    font-size: 0.875rem;
+    color: #111827;
+}
+
+.savings-card-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.savings-card-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    min-width: 100px;
+}
+
+.savings-card-btn-primary {
+    background-color: #2563eb;
+    color: white;
+}
+
+.savings-card-btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.savings-card-btn-secondary {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.savings-card-btn-secondary:hover {
+    background-color: #d1d5db;
+}
+
+.savings-card-btn-danger {
+    background-color: #ef4444;
+    color: white;
+}
+
+.savings-card-btn-danger:hover {
+    background-color: #dc2626;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .savings-card {
+        padding: 1rem;
+    }
+    
+    .savings-card-header {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .savings-card-title {
+        font-size: 1.125rem;
+    }
+    
+    .savings-card-amount {
+        font-size: 1.25rem;
+    }
+    
+    .savings-card-actions {
+        flex-direction: column;
+    }
+    
+    .savings-card-btn {
+        width: 100%;
+    }
+} 
