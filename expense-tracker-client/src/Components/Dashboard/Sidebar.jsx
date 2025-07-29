@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { DollarSign, Home, FileText, BarChart3, Settings, LogOut,PiggyBank,LineChart } from "lucide-react";
 import "./sidebar.css";
+import AddExpenseForm from "./AddExpenseForm";
 
 const Sidebar = () => {
   return (
@@ -86,12 +87,13 @@ const Sidebar = () => {
         </NavLink>
       </nav>
       <div className="sidebar-quick-add">
-        <h3 className="sidebar-quick-add-title">Quick Add Expense</h3>
-        <form className="sidebar-quick-add-form">
+        {/* <h3 className="sidebar-quick-add-title">Quick Add Expense</h3>
+        <form className="sidebar-quick-add-form" onSubmit={}>
           <input type="text" placeholder="Description" className="sidebar-input" />
           <input type="number" placeholder="Amount" className="sidebar-input" />
           <button type="submit" className="sidebar-add-btn">Add</button>
-        </form>
+        </form> */}
+        {/* <AddExpenseForm/> */}
       </div>
     </aside>
   );

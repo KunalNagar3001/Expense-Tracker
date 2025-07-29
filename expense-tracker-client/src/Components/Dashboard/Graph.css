@@ -72,7 +72,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 80px;
+  width: 60px;
   padding-right: 1rem;
 }
 
@@ -81,6 +81,10 @@
   color: #6b7280;
   font-weight: 500;
   text-align: right;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .chart-main {
@@ -88,37 +92,39 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .chart-svg {
   width: 100%;
-  height: 250px;
-  margin-bottom: 1rem;
+  height: 100%;
+  flex: 1;
 }
 
 /* Chart Elements */
 .grid-line {
   stroke: #e5e7eb;
   stroke-width: 1;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .chart-line {
   stroke: #3b82f6;
-  stroke-width: 3;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .chart-area {
   fill: url(#area-gradient);
-  opacity: 0.3;
+  opacity: 0.2;
 }
 
 .data-point {
   fill: #3b82f6;
   stroke: #fff;
-  stroke-width: 2;
+  stroke-width: 1.5;
+  r: 3;
 }
 
 /* Gradient for area fill */
@@ -141,6 +147,58 @@
 }
 
 /* Responsive Design */
+/* Loading, Error, and Empty States */
+.graph-loading,
+.graph-error,
+.graph-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+.graph-loading p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.graph-error {
+  color: #dc2626;
+}
+
+.graph-error p {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+}
+
+.graph-retry-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.graph-retry-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.graph-empty p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.graph-empty p:first-child {
+  font-weight: 500;
+  color: #374151;
+}
+
 @media (max-width: 768px) {
   .graph-container {
     padding: 1.5rem;
