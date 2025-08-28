@@ -462,17 +462,17 @@ const Dashboard = ({ user: propUser, onLogout }) => {
                 <p className="dashboard-subtitle"> Here's your expense overview.</p>
               </div>
               <div className="dashboard-header-actions">
-                <button className="dashboard-add-expense-btn" onClick={() => setShowAddExpenseForm((prev) => !prev)}>
+                {/* <button className="dashboard-add-expense-btn" onClick={() => setShowAddExpenseForm((prev) => !prev)}>
                   <PlusCircle size={20} />
                   Add Expense
                 </button>
                 <button onClick={handleRefresh} className="dashboard-refresh-btn">
                   <RefreshCw size={16} />
-                </button>
+                </button> */}
                 <span className="dashboard-user-name">{user?.name}</span>
-                <button className="dashboard-logout-btn" onClick={handleLogout}>
-                  Logout
-                </button>
+                {/* <button className="dashboard-logout-btn" onClick={handleLogout}> */}
+                  {/* Logout
+                </button> */}
               </div>
             </div>
           </div>

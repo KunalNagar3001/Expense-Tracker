@@ -177,7 +177,7 @@ export default function Register({ onSwitchToLogin, onRegister }) {
               </button>
             </div>
 
-            <div className="register-terms-wrapper">
+            {/* <div className="register-terms-wrapper">
               <input type="checkbox" className="register-terms-checkbox" required />
               <span className="register-terms-text">
                 I agree to the{' '}
@@ -185,7 +185,7 @@ export default function Register({ onSwitchToLogin, onRegister }) {
                 {' '}and{' '}
                 <a href="#" className="register-terms-link">Privacy Policy</a>
               </span>
-            </div>
+            </div> */}
 
             <Button
               type="submit"

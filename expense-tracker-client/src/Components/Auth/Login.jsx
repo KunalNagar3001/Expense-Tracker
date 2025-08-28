@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock, DollarSign, CreditCard, PiggyBank, Wallet, Coins, TrendingUp, Receipt, Target } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, DollarSign } from 'lucide-react';
 import Input from '../UI/Input.jsx';
 import Button from '../UI/Button.jsx';
 import './login.css'
 import LoadingSpinner from '../UI/LoadingSpinner.jsx';
-import { useNavigate } from 'react-router-dom';
-import Herosection from '../UI/HeroSection.jsx';
 
 export default function Login({ onSwitchToRegister, onLogin }) {
   const [formData, setFormData] = useState({
@@ -15,7 +13,6 @@ export default function Login({ onSwitchToRegister, onLogin }) {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,47 +69,8 @@ export default function Login({ onSwitchToRegister, onLogin }) {
     }
   };
 
-  // Background icons data with random positions
-  const backgroundIcons = [
-    { Icon: DollarSign, top: '10%', left: '15%', size: 48 },
-    { Icon: CreditCard, top: '25%', left: '40%', size: 32 },
-    { Icon: PiggyBank, top: '15%', left: '75%', size: 40 },
-    { Icon: Wallet, top: '85%', left: '45%', size: 36 },
-    { Icon: Coins, top: '70%', left: '85%', size: 44 },
-    // { Icon: TrendingUp, top: '80%', left: '12%', size: 38 },
-    { Icon: Receipt, top: '60%', left: '90%', size: 32 },
-    // { Icon: Target, top: '35%', left: '5%', size: 42 },
-    // { Icon: DollarSign, top: '90%', left: '88%', size: 36 },
-    // { Icon: CreditCard, top: '5%', left: '92%', size: 28 },
-    // { Icon: PiggyBank, top: '55%', left: '3%', size: 34 },
-    // { Icon: Wallet, top: '20%', left: '2%', size: 40 },
-    // { Icon: Coins, top: '85%', left: '95%', size: 30 },
-    { Icon: TrendingUp, top: '40%', left: '92%', size: 36 },
-    { Icon: Receipt, top: '75%', left: '6%', size: 32 },
-  ];
-
   return (
-    <div className="login-container">
-      {/* Background Icons */}
-      <div className="background-icons">
-        {backgroundIcons.map((item, index) => (
-          <item.Icon
-            key={index}
-            className="bg-icon"
-            style={{
-              top: item.top,
-              left: item.left,
-              width: `${item.size}px`,
-              height: `${item.size}px`,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="HeroSection">
-        <Herosection/>
-      </div>
-      <div className="login-card">
+    <div className="login-card">
         <div className="login-header">
           <div className="login-logo-wrapper">
             <div className="login-logo-bg">
@@ -163,7 +121,7 @@ export default function Login({ onSwitchToRegister, onLogin }) {
             </button>
           </div>
 
-          <div className="login-options">
+          {/* <div className="login-options">
             <label className="login-remember-label">
               <input type="checkbox" className="login-remember-checkbox" />
               <span className="login-remember-text">Remember me</span>
@@ -171,7 +129,7 @@ export default function Login({ onSwitchToRegister, onLogin }) {
             <a href="#" className="login-forgot-link">
               Forgot password?
             </a>
-          </div>
+          </div> */}
           <div className="login-btn-container">
             <Button
               type="submit"
@@ -195,6 +153,5 @@ export default function Login({ onSwitchToRegister, onLogin }) {
           </p>
         </div>
       </div>
-    </div>
   );
 };

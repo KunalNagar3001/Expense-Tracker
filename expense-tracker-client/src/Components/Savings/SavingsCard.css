@@ -6,6 +6,7 @@
     border: 1px solid #e5e7eb;
     transition: all 0.2s ease;
     margin-bottom: 1.5rem;
+    /* height:40vh; */
 }
 
 .savings-card:hover {
@@ -58,7 +59,8 @@
 }
 
 .savings-card-progress {
-    margin-bottom: 1.5rem;
+    margin:0 2.5rem 1.5rem 2.5rem ;
+    
 }
 
 .savings-card-progress-info {
@@ -104,11 +106,12 @@
 
 .savings-card-details {
     margin-bottom: 1.5rem;
+    align-items: center;
 }
 
 .savings-card-detail {
     display: flex;
-    justify-content: space-between;
+    justify-content:start;
     align-items: center;
     margin-bottom: 0.5rem;
 }
@@ -128,13 +131,18 @@
 
 .savings-card-value {
     font-size: 0.875rem;
-    color: #111827;
+    color: #6b7280;
+    font-weight:500;
+    margin-left:10px;
 }
 
 .savings-card-actions {
+
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
+    width:45%;
+    justify-self: end;
 }
 
 .savings-card-btn {
@@ -149,13 +157,26 @@
     min-width: 100px;
 }
 
+/* .savings-card-btn{
+    width:5vw;
+} */
+
+.savings-card-last{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height:3vh;
+}
+
 .savings-card-btn-primary {
-    background-color: #2563eb;
-    color: white;
+    background-color: #e6ebf6;
+    color: #1d4ed8;
+    font-weight: 600;
 }
 
 .savings-card-btn-primary:hover {
     background-color: #1d4ed8;
+    color:white;
 }
 
 .savings-card-btn-secondary {
@@ -168,12 +189,14 @@
 }
 
 .savings-card-btn-danger {
-    background-color: #ef4444;
-    color: white;
+    background-color:rgb(237, 214, 214);
+    color:#dc2626;
+    font-weight: 600;
 }
 
 .savings-card-btn-danger:hover {
     background-color: #dc2626;
+    color:white;
 }
 
 /* Responsive design */

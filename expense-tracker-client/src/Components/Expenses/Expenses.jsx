@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../Dashboard/Sidebar';
-import { PlusCircle, RefreshCw, Edit2, Trash2 } from 'lucide-react';
+import { PlusCircle, RefreshCw, Edit2, Trash2, Download } from 'lucide-react';
 import './Expenses.css';
 import AddExpenseForm from '../Dashboard/AddExpenseForm';
 
@@ -103,6 +103,44 @@ const Expenses = () => {
 
   const handleEditCancel = () => {
     setEditingExpenseId(null);
+  };
+
+  // CSV Export function
+  const exportToCSV = () => {
+    if (allExpenses.length === 0) {
+      alert('No expenses to export');
+      return;
+    }
+
+    // CSV Headers
+    const headers = ['Date', 'Description', 'Category', 'Amount'];
+    
+    // Convert expenses to CSV format
+    const csvContent = [
+      headers.join(','),
+      ...allExpenses.map(expense => {
+        const date = new Date(expense.date).toLocaleDateString('en-US');
+        const description = expense.description.includes(',') || expense.description.includes('"') 
+          ? `"${expense.description.replace(/"/g, '""')}"` 
+          : expense.description;
+        const category = expense.category;
+        const amount = Number(expense.amount).toFixed(2);
+        
+        return [date, description, category, amount].join(',');
+      })
+    ].join('\n');
+
+    // Create and download the file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `expenses_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const categories = [
@@ -273,18 +311,18 @@ const Expenses = () => {
   return (
     <div className="Expenses Header" style={{ display: 'flex', width: '100%' }}>
       <Sidebar />
-      <div style={{ width: '100%' }}>
+      <div >
         <div className="all-expenses">
           <div className="all-expenses-header">
             <p>Track Control of your finances, One Expense at a time !!!</p>
             <h2>{expenseFilter === 'week' ? 'This Week\'s Expenses' : expenseFilter === 'month' ? 'This Month\'s Expenses' : expenseFilter === 'date' && selectedDate ? `Expenses on ${selectedDate}` : expenseFilter === 'category' && selectedCategory ? `Expenses in ${selectedCategory}` : 'All Expenses'}</h2>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1rem 0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1rem 1.5rem'}}>
             <input
               type="date"
               value={selectedDate}
               onChange={e => setSelectedDate(e.target.value)}
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db' }}
+              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db',backgroundColor:'white' ,color:'black'}}
             />
             <button
               className="view-all-btn"
@@ -305,7 +343,7 @@ const Expenses = () => {
             <select
               value={selectedCategory}
               onChange={e => setSelectedCategory(e.target.value)}
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db' }}
+              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db',background:'white' }}
             >
               <option value="">Select Category</option>
               {categories.map(cat => (
@@ -334,6 +372,15 @@ const Expenses = () => {
               onClick={() => setShowAddExpenseForm(true)}
             >
               + Add Expense
+            </button>
+            <button
+              className="view-all-btn"
+              style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: '4px' }}
+              onClick={exportToCSV}
+              disabled={allExpensesLoading || allExpenses.length === 0}
+            >
+              <Download size={16} />
+              Export CSV
             </button>
           </div>
           {showAddExpenseForm && (

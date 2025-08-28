@@ -1,20 +1,21 @@
 .register-container {
-  min-height: 100vh;
-  width: 100vw;
+  min-height: 80vh;
+  width: 70vw;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
-  background: linear-gradient(to bottom right, #e3f0ff 0%, #c7d2fe 100%);
-  padding: 1rem;
+  background: #fff;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
 }
-.register-card {
+/* .register-card {
   max-width: 500px;
   width: 100%;
   background: #fff;
   border-radius: 1rem;
   box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
   padding: 2rem;
-}
+} */
 .register-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -107,7 +108,9 @@
   color: #1e40af;
 }
 .register-submit-btn {
-  width: 100%;
+  width: 50%;
+  color:#1e40af;
+  align-self: center;
 }
 .register-footer {
   margin-top: 1.5rem;
@@ -127,3 +130,6 @@
 .register-switch-btn:hover {
   color: #1e40af;
 } 
+.register-submit-btn:hover{
+  color:#fff;
+}

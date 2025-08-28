@@ -4,15 +4,17 @@ import './SavingsCard.css';
 const SavingsCard = ({ savings, onUpdateAmount, onEdit, onDelete }) => {
     const progress = savings.goalAmount > 0 ? (savings.amount / savings.goalAmount) * 100 : 0;
     const progressPercentage = Math.min(progress, 100);
-    
+
     const getStatusColor = (status) => {
         switch (status) {
-            case 'Completed': return '#10b981';
-            case 'Active': return '#3b82f6';
+            case 'Completed': return {"bg-color":'#10b981',"color":"#1d4ed8"};
+            case 'Active': return '#e6ebf6';
             case 'Paused': return '#f59e0b';
             default: return '#6b7280';
         }
     };
+
+
 
     const getPriorityColor = (priority) => {
         switch (priority) {
@@ -44,13 +46,13 @@ const SavingsCard = ({ savings, onUpdateAmount, onEdit, onDelete }) => {
                 <div className="savings-card-title-section">
                     <h3 className="savings-card-title">{savings.title}</h3>
                     <div className="savings-card-badges">
-                        <span 
+                        <span
                             className="savings-card-status"
                             style={{ backgroundColor: getStatusColor(savings.status) }}
                         >
                             {savings.status}
                         </span>
-                        <span 
+                        <span
                             className="savings-card-priority"
                             style={{ backgroundColor: getPriorityColor(savings.priority) }}
                         >
@@ -73,7 +75,7 @@ const SavingsCard = ({ savings, onUpdateAmount, onEdit, onDelete }) => {
                     </span>
                 </div>
                 <div className="savings-card-progress-bar">
-                    <div 
+                    <div
                         className="savings-card-progress-fill"
                         style={{ width: `${progressPercentage}%` }}
                     ></div>
@@ -82,39 +84,40 @@ const SavingsCard = ({ savings, onUpdateAmount, onEdit, onDelete }) => {
                     {Math.round(progressPercentage)}% Complete
                 </div>
             </div>
-
-            <div className="savings-card-details">
-                <div className="savings-card-detail">
-                    <span className="savings-card-label">Target Date:</span>
-                    <span className="savings-card-value">{formatDate(savings.targetDate)}</span>
-                </div>
-                {savings.notes && (
-                    <div className="savings-card-notes">
-                        <span className="savings-card-label">Notes:</span>
-                        <span className="savings-card-value">{savings.notes}</span>
+            <div className="savings-card-last">
+                <div className="savings-card-details">
+                    <div className="savings-card-detail">
+                        <span className="savings-card-label">Target Date:</span>
+                        <span className="savings-card-value">{formatDate(savings.targetDate)}</span>
                     </div>
-                )}
-            </div>
+                    {savings.notes && (
+                        <div className="savings-card-notes">
+                            <span className="savings-card-label">Notes:</span>
+                            <span className="savings-card-value">{savings.notes}</span>
+                        </div>
+                    )}
+                </div>
 
-            <div className="savings-card-actions">
-                <button 
-                    className="savings-card-btn savings-card-btn-primary"
-                    onClick={() => onUpdateAmount(savings._id)}
-                >
-                    Update Amount
-                </button>
-                <button 
-                    className="savings-card-btn savings-card-btn-secondary"
-                    onClick={() => onEdit(savings)}
-                >
-                    Edit
-                </button>
-                <button 
-                    className="savings-card-btn savings-card-btn-danger"
-                    onClick={() => onDelete(savings._id)}
-                >
-                    Delete
-                </button>
+                <div className="savings-card-actions">
+                    <button
+                        className="savings-card-btn savings-card-btn-primary"
+                        onClick={() => onUpdateAmount(savings._id)}
+                    >
+                        Update Amount
+                    </button>
+                    <button
+                        className="savings-card-btn savings-card-btn-secondary"
+                        onClick={() => onEdit(savings)}
+                    >
+                        Edit
+                    </button>
+                    <button
+                        className="savings-card-btn savings-card-btn-danger"
+                        onClick={() => onDelete(savings._id)}
+                    >
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
     );
