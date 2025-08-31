@@ -7,6 +7,12 @@
   color:black;
   margin-bottom:30px;
 }
+.dark .savingd-container {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #e5e7eb;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.5);
+}
 
 .savingd-header-container{
   display:flex;
@@ -39,12 +45,20 @@
   box-shadow:0 4px 24px 0 rgba(0,0,0,0.08);
   border: 1px solid #e5e7eb;
 }
+.dark .savingd-cards{
+  background-color:#111827;
+  border-color: #334155;
+  box-shadow:0 4px 24px 0 rgba(0,0,0,0.5);
+}
 
 .savingd-cards h3 {
   font-size: 1.125rem;
   font-weight: 600;
   color: #111827;
   margin: 0 0 1rem 0;
+}
+.dark .savingd-cards h3 {
+  color: #e5e7eb;
 }
 
 .savingd-card-info {
@@ -55,10 +69,16 @@
   font-size: 0.875rem;
   color: #6b7280;
 }
+.dark .savingd-card-info {
+  color: #94a3b8;
+}
 
 .savingd-card-info span:first-child {
   font-weight: 500;
   color: #111827;
+}
+.dark .savingd-card-info span:first-child {
+  color: #e5e7eb;
 }
 
 .savingd-card-info span:last-child {
@@ -70,6 +90,9 @@
   font-size: 0.75rem;
   color: #6b7280;
   margin-top: 0.5rem;
+}
+.dark .savingd-card-date {
+  color: #94a3b8;
 }
 
 .savingd-empty {
@@ -90,6 +113,9 @@
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 0.5rem;
+}
+.dark .savingd-card-progressbar{
+  background-color: #334155;
 }
 
 .savingd-card-progress-fill{

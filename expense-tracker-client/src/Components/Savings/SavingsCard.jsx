@@ -7,8 +7,8 @@ const SavingsCard = ({ savings, onUpdateAmount, onEdit, onDelete }) => {
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'Completed': return {"bg-color":'#10b981',"color":"#1d4ed8"};
-            case 'Active': return '#e6ebf6';
+            case 'Completed': return '#10b981';
+            case 'Active': return '#1d4ed8';
             case 'Paused': return '#f59e0b';
             default: return '#6b7280';
         }

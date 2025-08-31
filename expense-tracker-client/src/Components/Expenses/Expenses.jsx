@@ -270,7 +270,7 @@ const Expenses = () => {
     return (
       <div className="expense-row" style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: '1px solid #f3f4f6', padding: '18px 0', gap: 8
+        borderBottom: '1px solid #f3f4f6', padding: '18px 0px', gap: 8
       }}>
         <div style={{ flex: 2, minWidth: 180 }}>
           <div style={{color: '#111827', fontWeight: 600, fontSize: 17 }}>{expense.description}</div>
@@ -315,73 +315,90 @@ const Expenses = () => {
         <div className="all-expenses">
           <div className="all-expenses-header">
             <p>Track Control of your finances, One Expense at a time !!!</p>
-            <h2>{expenseFilter === 'week' ? 'This Week\'s Expenses' : expenseFilter === 'month' ? 'This Month\'s Expenses' : expenseFilter === 'date' && selectedDate ? `Expenses on ${selectedDate}` : expenseFilter === 'category' && selectedCategory ? `Expenses in ${selectedCategory}` : 'All Expenses'}</h2>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1rem 1.5rem'}}>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={e => setSelectedDate(e.target.value)}
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db',backgroundColor:'white' ,color:'black'}}
-            />
-            <button
-              className="view-all-btn"
-              onClick={() => { if (selectedDate) setExpenseFilter('date'); setCurrentPage(1); }}
-              disabled={!selectedDate}
-            >
-              Search by Date
-            </button>
-            {expenseFilter === 'date' && selectedDate && (
-              <button
-                className="view-all-btn"
-                style={{ color: 'red' }}
-                onClick={() => { setExpenseFilter('all'); setSelectedDate(''); setCurrentPage(1); }}
-              >
-                Clear Date Filter
-              </button>
-            )}
-            <select
-              value={selectedCategory}
-              onChange={e => setSelectedCategory(e.target.value)}
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db',background:'white' }}
-            >
-              <option value="">Select Category</option>
-              {categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-            <button
-              className="view-all-btn"
-              onClick={() => { if (selectedCategory) setExpenseFilter('category'); setCurrentPage(1); }}
-              disabled={!selectedCategory}
-            >
-              Search by Category
-            </button>
-            {expenseFilter === 'category' && selectedCategory && (
-              <button
-                className="view-all-btn"
-                style={{ color: 'red' }}
-                onClick={() => { setExpenseFilter('all'); setSelectedCategory(''); setCurrentPage(1); }}
-              >
-                Clear Category Filter
-              </button>
-            )}
+            <div className="expense-header-buttons">
             <button
               className="add-expense-btn"
-              style={{ marginBottom: 16 }}
+          
               onClick={() => setShowAddExpenseForm(true)}
             >
               + Add Expense
             </button>
             <button
               className="view-all-btn"
-              style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: '4px' }}
+              style={{  display: 'flex', alignItems: 'center', gap: '4px' }}
               onClick={exportToCSV}
               disabled={allExpensesLoading || allExpenses.length === 0}
             >
               <Download size={16} />
               Export CSV
             </button>
+            </div>
+            {/* <h2>{expenseFilter === 'week' ? 'This Week\'s Expenses' : expenseFilter === 'month' ? 'This Month\'s Expenses' : expenseFilter === 'date' && selectedDate ? `Expenses on ${selectedDate}` : expenseFilter === 'category' && selectedCategory ? `Expenses in ${selectedCategory}` : 'All Expenses'}</h2> */}
+          </div>
+          <div className="filters-bar">
+            <div className="filters-row">
+              <button className="filter-btn" onClick={() => { setExpenseFilter('all'); setCurrentPage(1); }}>
+                All Expenses
+              </button>
+              <button className="filter-btn" onClick={() => { setExpenseFilter('week'); setCurrentPage(1); }}>
+                This Week
+              </button>
+              <button className="filter-btn" onClick={() => { setExpenseFilter('month'); setCurrentPage(1); }}>
+                This Month
+              </button>
+            </div>
+            <div className="filters-row">
+              <div className="filter-control">
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={e => setSelectedDate(e.target.value)}
+                  className="filter-input"
+                />
+                <button
+                  className="view-all-btn"
+                  onClick={() => { if (selectedDate) setExpenseFilter('date'); setCurrentPage(1); }}
+                  disabled={!selectedDate}
+                >
+                  Search by Date
+                </button>
+                {expenseFilter === 'date' && selectedDate && (
+                  <button
+                    className="view-all-btn clear-btn"
+                    onClick={() => { setExpenseFilter('all'); setSelectedDate(''); setCurrentPage(1); }}
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              <div className="filter-control">
+                <select
+                  value={selectedCategory}
+                  onChange={e => setSelectedCategory(e.target.value)}
+                  className="filter-input"
+                >
+                  <option value="">Select Category</option>
+                  {categories.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+                <button
+                  className="view-all-btn"
+                  onClick={() => { if (selectedCategory) setExpenseFilter('category'); setCurrentPage(1); }}
+                  disabled={!selectedCategory}
+                >
+                  Search by Category
+                </button>
+                {expenseFilter === 'category' && selectedCategory && (
+                  <button
+                    className="view-all-btn clear-btn"
+                    onClick={() => { setExpenseFilter('all'); setSelectedCategory(''); setCurrentPage(1); }}
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
           {showAddExpenseForm && (
             <AddExpenseForm
@@ -397,7 +414,7 @@ const Expenses = () => {
             {/* Table Header Row */}
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              borderBottom: '2px solid #e5e7eb', padding: '10px 0', fontWeight: 600, color: '#374151', background: '#f9fafb', fontSize: 15
+              borderBottom: '2px solid #e5e7eb', padding: '10px 10px', fontWeight: 600, color: '#374151', background: '#f9fafb', fontSize: 15
             }}>
               <div style={{ flex: 2, minWidth: 180 }}>Description</div>
               <div style={{ flex: 1, minWidth: 120, textAlign: 'center' }}>Category</div>

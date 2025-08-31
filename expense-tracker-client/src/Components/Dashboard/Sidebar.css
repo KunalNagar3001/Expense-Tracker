@@ -9,6 +9,11 @@
   box-shadow: 2px 0 16px 0 rgba(0,0,0,0.04);
 }
 
+.dark .sidebar {
+  background: #0f172a;
+  box-shadow: 2px 0 16px 0 rgba(0,0,0,0.5);
+}
+
 .sidebar-logo {
   display: flex;
   align-items: center;
@@ -37,6 +42,10 @@
   color: #111827;
 }
 
+.dark .sidebar-app-name {
+  color: #e5e7eb;
+}
+
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -58,9 +67,19 @@
   transition: background 0.2s, color 0.2s;
 }
 
+.dark .sidebar-nav-link {
+  color: #cbd5e1;
+}
+
 .sidebar-nav-link.active,
 .sidebar-nav-link:hover {
   background: linear-gradient(90deg, #6366f1 0%, #2563eb 100%);
+  color: #fff;
+}
+
+.dark .sidebar-nav-link.active,
+.dark .sidebar-nav-link:hover {
+  background: linear-gradient(90deg, #4f46e5 0%, #1d4ed8 100%);
   color: #fff;
 }
 
@@ -77,11 +96,19 @@
   padding: 1.25rem 1rem;
 }
 
+.dark .sidebar-quick-add {
+  background: #111827;
+}
+
 .sidebar-quick-add-title {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: #111827;
+}
+
+.dark .sidebar-quick-add-title {
+  color: #e5e7eb;
 }
 
 .sidebar-quick-add-form {
@@ -96,6 +123,12 @@
   border: 1px solid #d1d5db;
   font-size: 1rem;
   background: #fff;
+}
+
+.dark .sidebar-input {
+  background: #0b1020;
+  border-color: #334155;
+  color: #e5e7eb;
 }
 
 .sidebar-add-btn {
@@ -113,3 +146,64 @@
 .sidebar-add-btn:hover {
   background: linear-gradient(90deg, #2563eb 0%, #6366f1 100%);
 }
+
+/* Theme toggle button */
+.sidebar-theme-toggle {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  margin-bottom: 1rem;
+  transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, transform 0.05s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.sidebar-theme-toggle:hover {
+  background: #f9fafb;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.dark .sidebar-theme-toggle {
+  border-color: #334155;
+  background: #111827;
+  color: #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.sidebar-theme-toggle:active {
+  transform: translateY(1px);
+}
+
+.sidebar-theme-toggle:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.6);
+}
+
+.sidebar-theme-icon {
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.9;
+}
+
+.sidebar-theme-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Arrange inner content and toggle icon visibility by theme */
+.sidebar-theme-toggle-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Show moon on light, sun on dark */
+.sidebar-theme-icon.sun { display: none; }
+.dark .sidebar-theme-icon.sun { display: inline-block; }
+.dark .sidebar-theme-icon.moon { display: none; }

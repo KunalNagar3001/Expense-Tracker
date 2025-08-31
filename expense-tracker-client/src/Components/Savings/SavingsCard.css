@@ -8,6 +8,11 @@
     margin-bottom: 1.5rem;
     /* height:40vh; */
 }
+.dark .savings-card {
+    background: #0f172a;
+    border-color: #334155;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
 
 .savings-card:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
@@ -30,6 +35,9 @@
     font-weight: 600;
     color: #111827;
     margin: 0 0 0.5rem 0;
+}
+.dark .savings-card-title {
+    color: #e5e7eb;
 }
 
 .savings-card-badges {
@@ -57,6 +65,10 @@
     font-size: 0.875rem;
     font-weight: 500;
 }
+.dark .savings-card-category {
+     background-color: #111827;
+     color: #e5e7eb;
+}
 
 .savings-card-progress {
     margin:0 2.5rem 1.5rem 2.5rem ;
@@ -75,10 +87,16 @@
     font-weight: 700;
     color: #111827;
 }
+.dark .savings-card-amount {
+    color: #e5e7eb;
+}
 
 .savings-card-goal {
     font-size: 1rem;
     color: #6b7280;
+}
+.dark .savings-card-goal {
+    color: #94a3b8;
 }
 
 .savings-card-progress-bar {
@@ -88,6 +106,9 @@
     border-radius: 4px;
     overflow: hidden;
     margin-bottom: 0.5rem;
+}
+.dark .savings-card-progress-bar {
+    background-color: #334155;
 }
 
 .savings-card-progress-fill {
@@ -102,6 +123,9 @@
     font-size: 0.875rem;
     color: #6b7280;
     font-weight: 500;
+}
+.dark .savings-card-progress-percentage {
+    color: #94a3b8;
 }
 
 .savings-card-details {
@@ -128,12 +152,18 @@
     color: #6b7280;
     font-weight: 500;
 }
+.dark .savings-card-label {
+    color: #94a3b8;
+}
 
 .savings-card-value {
     font-size: 0.875rem;
     color: #6b7280;
     font-weight:500;
     margin-left:10px;
+}
+.dark .savings-card-value {
+    color: #cbd5e1;
 }
 
 .savings-card-actions {
@@ -183,6 +213,10 @@
     background-color: #e5e7eb;
     color: #374151;
 }
+.dark .savings-card-btn-secondary {
+    background-color: #111827;
+    color: #e5e7eb;
+}
 
 .savings-card-btn-secondary:hover {
     background-color: #d1d5db;
@@ -192,6 +226,10 @@
     background-color:rgb(237, 214, 214);
     color:#dc2626;
     font-weight: 600;
+}
+.dark .savings-card-btn-danger {
+    background-color: #2b1a1a;
+    color:#fecaca;
 }
 
 .savings-card-btn-danger:hover {

@@ -3,7 +3,7 @@ import { Eye, EyeOff, Mail, Lock, DollarSign, User } from 'lucide-react';
 import Input from '../UI/Input.jsx';
 import Button from '../UI/Button.jsx';
 import LoadingSpinner from '../UI/LoadingSpinner.jsx';
-
+import './register.css'
 export default function Register({ onSwitchToLogin, onRegister }) {
     const [formData, setFormData] = useState({
       name: '',
@@ -100,8 +100,8 @@ export default function Register({ onSwitchToLogin, onRegister }) {
                 <DollarSign className="register-logo" />
               </div>
             </div>
-            <h2 className="register-title">Create Account</h2>
-            <p className="register-subtitle">Start tracking your expenses today with Expenzo</p>
+            <h2 className="register-title">Expenzo</h2>
+            <p className="register-subtitle">Create your Account to Start tracking your expenses today with Expenzo</p>
           </div>
 
           <form className="register-form-wrapper" onSubmit={handleSubmit}>

@@ -301,9 +301,8 @@ const Graph = () => {
                 y1={getYPosition(value)}
                 x2="100"
                 y2={getYPosition(value)}
-                stroke="#e5e7eb"
+                className="grid-line"
                 strokeWidth="0.2"
-                opacity="0.5"
               />
             ))}
             
@@ -332,7 +331,7 @@ const Graph = () => {
                   cy={getYPosition(item.amount)}
                   r="2"
                   fill="#3b82f6"
-                  stroke="#ffffff"
+                  stroke="currentColor"
                   strokeWidth="1"
                 />
                 {/* Hover tooltip */}

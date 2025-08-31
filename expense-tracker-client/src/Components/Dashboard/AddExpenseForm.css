@@ -17,6 +17,10 @@
   width: 100%;
   animation: modalIn 0.2s;
 }
+.dark .add-expense-modal {
+  background: #0f172a;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.6);
+}
 
 @keyframes modalIn {
   from { transform: translateY(40px) scale(0.98); opacity: 0; }
@@ -35,6 +39,11 @@
   font-size: 1rem;
   outline: none;
   transition: border 0.2s;
+}
+.dark .add-expense-input {
+  background: #0b1020;
+  border-color: #334155;
+  color: #e5e7eb;
 }
 .add-expense-input:focus {
   border-color: #6366f1;
@@ -63,6 +72,10 @@
 .add-expense-btn-cancel {
   background: #f3f4f6;
   color: #374151;
+}
+.dark .add-expense-btn-cancel {
+  background: #111827;
+  color: #e5e7eb;
 }
 .add-expense-btn-cancel:hover {
   background: #e5e7eb;

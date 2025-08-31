@@ -5,12 +5,19 @@
     padding: 2rem;
     overflow-y: auto;
 }
+.dark .Savings-container {
+    background-color: #0f172a;
+    color: #e5e7eb;
+}
 
 .Savings-page {
     display: flex;
     flex-direction: row;
     height: 100%;
     background-color: #f3f4f6;
+}
+.dark .Savings-page {
+    background-color: #0b1020;
 }
 
 .Savings-header {
@@ -21,12 +28,18 @@
     padding-bottom: 1rem;
     border-bottom: 1px solid #e5e7eb;
 }
+.dark .Savings-header {
+    border-bottom-color: #334155;
+}
 
 .Savings-title {
     font-size: 2rem;
     font-weight: 700;
     color: #111827;
     margin: 0;
+}
+.dark .Savings-title {
+    color: #e5e7eb;
 }
 
 .add-savings-button {
@@ -53,6 +66,9 @@
     font-size: 1.1rem;
     text-align: center;
     padding: 2rem;
+}
+.dark .Savings-content {
+    color: #94a3b8;
 }
 
 .Savings-grid {

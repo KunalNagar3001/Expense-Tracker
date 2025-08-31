@@ -3,8 +3,18 @@ import { NavLink } from "react-router-dom";
 import { DollarSign, Home, FileText, BarChart3, Settings, LogOut,PiggyBank,LineChart } from "lucide-react";
 import "./sidebar.css";
 import AddExpenseForm from "./AddExpenseForm";
+import { Moon, Sun } from "lucide-react";
 
 const Sidebar = () => {
+  const handleToggleTheme = () => {
+    if (typeof window !== 'undefined' && typeof window.toggleTheme === 'function') {
+      window.toggleTheme();
+    } else {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
@@ -13,6 +23,13 @@ const Sidebar = () => {
         </div>
         <span className="sidebar-app-name">Expenzo</span>
       </div>
+      <button className="sidebar-theme-toggle" onClick={handleToggleTheme} aria-label="Toggle theme">
+        <span className="sidebar-theme-toggle-inner">
+          <Moon className="sidebar-theme-icon moon" />
+          <Sun className="sidebar-theme-icon sun" />
+          <span className="sidebar-theme-text">Theme</span>
+        </span>
+      </button>
       <nav className="sidebar-nav">
         <NavLink
           to="/dashboard"
@@ -33,7 +50,16 @@ const Sidebar = () => {
           <FileText className="sidebar-nav-icon" />
           Expenses
         </NavLink>
-        <NavLink
+        <NavLink 
+        to="/Savings"
+        className={({ isActive }) =>
+          "sidebar-nav-link" + (isActive ? " active" : "")
+        }
+        >
+          <PiggyBank className="sidebar-nav-icon" />
+          Savings
+        </NavLink>
+        {/* <NavLink
           to="/analytics"
           className={({ isActive }) =>
             "sidebar-nav-link" + (isActive ? " active" : "")
@@ -42,6 +68,8 @@ const Sidebar = () => {
           <BarChart3 className="sidebar-nav-icon" />
           Analytics
         </NavLink>
+
+        
         <NavLink
           to="/settings"
           className={({ isActive }) =>
@@ -52,15 +80,7 @@ const Sidebar = () => {
           Settings
         </NavLink>
        
-        <NavLink 
-        to="/Savings"
-        className={({ isActive }) =>
-          "sidebar-nav-link" + (isActive ? " active" : "")
-        }
-        >
-          <PiggyBank className="sidebar-nav-icon" />
-          Savings
-        </NavLink>
+       
 
         <NavLink
         to='/Invesments'
@@ -70,7 +90,7 @@ const Sidebar = () => {
         >
           <LineChart className="sidebar-nav-icon" />
           Investments
-        </NavLink>
+        </NavLink> */}
         <NavLink
           to="/"
           className={({ isActive }) =>
