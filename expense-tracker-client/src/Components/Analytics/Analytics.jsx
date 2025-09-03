@@ -13,7 +13,7 @@ export default function Analytics() {
     const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
     
     // Initialize Google Gemini AI
-    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyDa0RUGGCdZreiNSedoZlssNzXohX3FfRY')
+    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || '')
 
     useEffect(
         ()=>{
