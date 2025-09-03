@@ -45,6 +45,7 @@ const Dashboard = ({ user: propUser, onLogout }) => {
       });
       if (res.ok) {
         const data = await res.json();
+        // console.log(data);
         setCategorySummary(data);
       }
     };
@@ -97,6 +98,28 @@ const Dashboard = ({ user: propUser, onLogout }) => {
     }
   };
 
+  // To pass the `expenses` state as a prop to the Analytics page, you need to:
+  // 1. Fetch and store recent expenses in Dashboard (already done with fetchRecentExpenses and setExpenses).
+  // 2. When navigating to Analytics, pass the `expenses` state as a prop.
+  //    - If you render <Analytics /> directly in Dashboard, do: <Analytics recentExpenses={expenses} />
+  //    - If you use React Router, you can pass it via the `state` prop in <Link> or use a context/global state.
+  //    - Or, you can use a wrapper route that injects the prop.
+  //
+  // Example (if rendering directly in Dashboard):
+  //   <Analytics recentExpenses={expenses} />
+  //
+  // Example (if using React Router v6+ and want to pass via navigation):
+  //   import { useNavigate } from 'react-router-dom';
+  //   const navigate = useNavigate();
+  //   // When navigating:
+  //   navigate('/analytics', { state: { recentExpenses: expenses } });
+  //
+  //   // In Analytics.jsx, use:
+  //   import { useLocation } from 'react-router-dom';
+  //   const { state } = useLocation();
+  //   const recentExpenses = state?.recentExpenses;
+  //
+  // The fetchRecentExpenses function itself remains unchanged:
   const fetchRecentExpenses = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -194,7 +217,7 @@ const Dashboard = ({ user: propUser, onLogout }) => {
 
   return (
     <div className="dashboard-layout">
-      <Sidebar />
+      <Sidebar recentExpenses={expenses} />
       <div className="dashboard-main">
         {/* Header */}
         <header className="dashboard-header">

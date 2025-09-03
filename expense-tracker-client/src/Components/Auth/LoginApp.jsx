@@ -12,11 +12,17 @@ const LoginApp = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  // The userData is passed to Dashboard as a prop here:
+  // <Dashboard user={user} onLogout={handleLogout} />
+  // This happens in the return statement of LoginApp.
+  // When handleLogin is called, it sets the user state with setUser(userData).
+  // React re-renders LoginApp, and the updated user state is passed as the "user" prop to Dashboard.
+  // That's how Dashboard receives userData as a prop, even though you don't see userData directly passed in handleLogin.
   const handleLogin = (userData) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
     setCurrentView('dashboard');
-    navigate('/dashboard'); // Redirect to /dashboard after login
+    navigate('/dashboard');
   };
 
   const handleRegister = (formData) => {

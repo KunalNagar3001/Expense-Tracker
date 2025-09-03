@@ -38,6 +38,7 @@ const Expenses = () => {
       });
       if (!response.ok) throw new Error('Failed to fetch all expenses');
       const data = await response.json();
+      console.log(data);
       setAllExpenses(data);
     } catch (err) {
       setAllExpenses([]);

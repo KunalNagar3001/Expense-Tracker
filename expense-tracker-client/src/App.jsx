@@ -4,6 +4,7 @@ import Dashboard from './Components/Dashboard/DashBoard.jsx';
 import PrivateRoute from './Components/Auth/PrivateRoute.jsx';
 import Expenses from './Components/Expenses/Expenses.jsx';
 import Savings from './Components/Savings/Savings.jsx';
+import Analytics from './Components/Analytics/Analytics.jsx'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         } />
         <Route path="/expenses" element={<Expenses />} />
         <Route path="/Savings" element={<Savings />} />
+        <Route path="/analytics" element={<Analytics/>}/>
       </Routes>
     </Router>
   );

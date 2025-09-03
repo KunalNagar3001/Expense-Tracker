@@ -59,8 +59,9 @@ const Sidebar = () => {
           <PiggyBank className="sidebar-nav-icon" />
           Savings
         </NavLink>
-        {/* <NavLink
+         <NavLink
           to="/analytics"
+          // state={{ recentExpenses }}
           className={({ isActive }) =>
             "sidebar-nav-link" + (isActive ? " active" : "")
           }
@@ -70,7 +71,7 @@ const Sidebar = () => {
         </NavLink>
 
         
-        <NavLink
+        {/*<NavLink
           to="/settings"
           className={({ isActive }) =>
             "sidebar-nav-link" + (isActive ? " active" : "")
