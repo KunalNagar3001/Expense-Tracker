@@ -1,4 +1,4 @@
-# Expenzo-Smart Expense Tracker with AI Insights 
+Expenzo-Smart Expense Tracker with AI Insights 
 ## Project Overview
 Expense Tracker is a full‑stack personal finance app to help you understand and improve your spending habits.
 
