@@ -1,6 +1,7 @@
 Expenzo-Smart Expense Tracker with AI Insights (MERN Stack)
 ## Project Overview
 Expense Tracker is a full‑stack personal finance app to help you understand and improve your spending habits.
+![Login Page](assets/login.png)
 
 
 
