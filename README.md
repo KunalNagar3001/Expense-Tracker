@@ -1,15 +1,20 @@
 Expenzo-Smart Expense Tracker with AI Insights (MERN Stack)
 ## Project Overview
 Expense Tracker is a full‑stack personal finance app to help you understand and improve your spending habits.
-![Login Page](assets/login.png)
+![Login Page](expense-tracker-client/src/assets/login.png)
+![DashBoard](expense-tracker-client/src/assets/dashboard.png)
 
 
 
 - **Track Expenses**: Add, edit, delete, and review all your expenses with categories, amounts, and dates. The dashboard summarizes today, this week, this month, and all‑time spending, along with top categories.
+![Expenses Page](expense-tracker-client/src/assets/expenses.png)
 - **Create & Track Savings Goals**: Define savings goals with target amounts, categories, priorities, and target dates. Monitor total saved vs. goal, see active/completed goals, and view category‑level progress.
+  ![Savings Page](expense-tracker-client/src/assets/savings.png)
 - **AI‑Based Insights (Reports)**: Generate an AI‑powered narrative report that analyzes your expenses and savings to surface patterns, category breakdowns, trends, and recommendations.
+  ![AI Report](expense-tracker-client/src/assets/Analytics_report.png)
 - **Secure Access**: Register and log in; protected API routes require a JWT bearer token.
 - **Fast, Modern Stack**: React + Vite frontend, Express + Mongoose backend, and MongoDB for persistent storage.
+- ![Dark_Theme](expense-tracker-client/src/assets/Dark_Mode.png)
 
 ##Setup & Documentation
 
