@@ -179,7 +179,7 @@ const Dashboard = ({ user: propUser, onLogout }) => {
       <div className="dashboard-summary-card-header">
         <div>
           <p className="dashboard-summary-title">{title}</p>
-          <p className="dashboard-summary-amount">${amount.toFixed(2)}</p>
+          <p className="dashboard-summary-amount">₹{amount.toFixed(2)}</p>
           <div className="dashboard-summary-icon-wrapper">
             <Icon className="dashboard-summary-icon" />
           </div>
@@ -301,7 +301,7 @@ const Dashboard = ({ user: propUser, onLogout }) => {
                         }} />
                         <span className="categories-info">{cat.label || "Unknown"}</span>
                         <span className="categories-info-amt" >
-                          ${typeof cat.value === 'number' ? cat.value.toFixed(2) : cat.value}
+                          ₹{typeof cat.value === 'number' ? cat.value.toFixed(2) : cat.value}
                         </span>
                       </div>
                     ))}

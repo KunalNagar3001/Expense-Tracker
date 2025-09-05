@@ -284,7 +284,7 @@ const Expenses = () => {
           {formatDate(expense.date)}
         </div>
         <div style={{ color: '#111827', fontWeight: 700, fontSize: 18, minWidth: 110, textAlign: 'right', flex: 1 }}>
-          ${Number(expense.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          ₹{Number(expense.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
         </div>
         <div style={{ display: 'flex', gap: 16, minWidth: 60, justifyContent: 'flex-end', flex: 0.5 }}>
           <Edit2

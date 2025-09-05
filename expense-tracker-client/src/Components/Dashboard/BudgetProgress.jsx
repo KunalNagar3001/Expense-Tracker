@@ -16,7 +16,7 @@ const BudgetProgress = ({ budgets }) => (
         <div key={label || "Unknown"} style={{ marginBottom: 24 }}>
           <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 500 }}>
             <span style={{ color: 'black', fontSize: 16 }}>{label || "Unknown"}</span>
-            <span style={{ color: 'black', fontSize: 16 }}>${spent.toFixed(2)} / ${budget.toFixed(2)}</span>
+            <span style={{ color: 'black', fontSize: 16 }}>₹{spent.toFixed(2)} / ₹{budget.toFixed(2)}</span>
           </div>
           <div style={{ background: "#E5E7EB", borderRadius: 8, height: 8, marginTop: 6 }}>
             <div

@@ -1,357 +1,239 @@
-import React,{useState,useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import Sidebar from "../Dashboard/Sidebar"
 import { GoogleGenerativeAI } from "@google/generative-ai"
-// import html2pdf from "html2pdf.js" // Commented out due to issues
 import jsPDF from "jspdf"
-// import { useLocation } from 'react-router-dom'
-import './Analytics.css' 
+import './Analytics.css'
 
 export default function Analytics() {
-    const [data,setData]=useState([])
+    const [data, setData] = useState([])
+    const [filteredData, setFilteredData] = useState([])
     const [isGenerating, setIsGenerating] = useState(false)
-    const [reportData, setReportData] = useState(null)
+    const [aiRawResponse, setAiRawResponse] = useState('')
+    const [selectedMonth, setSelectedMonth] = useState('')
+    const [selectedWeek, setSelectedWeek] = useState('')
+    const [filterType, setFilterType] = useState('all') // 'all', 'month', 'week'
+    
     const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
     
     // Initialize Google Gemini AI
-    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyDa0RUGGCdZreiNSedoZlssNzXohX3FfRY')
+    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || '')
 
-    useEffect(
-        ()=>{
-            fetchAllExpensesA();
-        },[]
-    )
+    useEffect(() => {
+        fetchAllExpensesA();
+    }, [])
 
-    const fetchAllExpensesA=async ()=>{
-        try{
-            const token=localStorage.getItem('token');
-            const response=await fetch(`${API_BASE_URL}/api/allexpenses`,{
+    useEffect(() => {
+        filterData();
+    }, [data, selectedMonth, selectedWeek, filterType])
+
+    const fetchAllExpensesA = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${API_BASE_URL}/api/allexpenses`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             })
-            if(!response.ok) throw new Error('Failed to fetch all expenses');
-            const data1=await response.json();
+            if (!response.ok) throw new Error('Failed to fetch all expenses');
+            const data1 = await response.json();
             console.log(data1)
             setData(Array.isArray(data1) ? data1 : []);
-
         }
-        catch(err){
+        catch (err) {
             setData([]);
         }
     }
 
-    const generateAIReport = async (expenses) => {
+    const filterData = () => {
+        if (filterType === 'all') {
+            setFilteredData(data);
+            return;
+        }
+
+        let filtered = [...data];
+
+        if (filterType === 'month' && selectedMonth) {
+            filtered = data.filter(expense => {
+                const expenseDate = new Date(expense.date || expense.createdAt);
+                const expenseMonth = expenseDate.getFullYear() + '-' + String(expenseDate.getMonth() + 1).padStart(2, '0');
+                return expenseMonth === selectedMonth;
+            });
+        }
+
+        if (filterType === 'week' && selectedWeek) {
+            const [year, week] = selectedWeek.split('-W');
+            const startOfWeek = getStartOfWeek(parseInt(year), parseInt(week));
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+            filtered = data.filter(expense => {
+                const expenseDate = new Date(expense.date || expense.createdAt);
+                return expenseDate >= startOfWeek && expenseDate <= endOfWeek;
+            });
+        }
+
+        setFilteredData(filtered);
+    }
+
+    const getStartOfWeek = (year, week) => {
+        const jan1 = new Date(year, 0, 1);
+        const days = (week - 1) * 7;
+        const startOfWeek = new Date(jan1.getTime() + days * 24 * 60 * 60 * 1000);
+        const dayOfWeek = startOfWeek.getDay();
+        const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+        startOfWeek.setDate(startOfWeek.getDate() + mondayOffset);
+        return startOfWeek;
+    }
+
+    const generateAiRawText = async (expenses) => {
         try {
+            if (!import.meta.env.VITE_GEMINI_API_KEY) {
+                throw new Error('Missing Gemini API key (VITE_GEMINI_API_KEY)')
+            }
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
             
-            const prompt = `Analyze the following expense data and provide insights in this exact JSON format:
-            {
-                "summary": {
-                    "totalExpenses": number,
-                    "averageExpense": number,
-                    "totalCategories": number,
-                    "dateRange": "string"
-                },
-                "categoryBreakdown": [
-                    {
-                        "category": "string",
-                        "total": number,
-                        "percentage": number,
-                        "count": number
-                    }
-                ],
-                "insights": [
-                    "string insight 1",
-                    "string insight 2",
-                    "string insight 3"
-                ],
-                "recommendations": [
-                    "string recommendation 1",
-                    "string recommendation 2",
-                    "string recommendation 3"
-                ]
+            let periodInfo = '';
+            if (filterType === 'month' && selectedMonth) {
+                const [year, month] = selectedMonth.split('-');
+                const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
+                periodInfo = `for ${monthName} ${year}`;
+            } else if (filterType === 'week' && selectedWeek) {
+                periodInfo = `for week ${selectedWeek}`;
+            } else {
+                periodInfo = 'for all time';
             }
-
-            Expense data: ${JSON.stringify(expenses)}
             
-            Provide only the JSON response, no additional text.`
+            const prompt = `You are a financial analyst. Analyze the following expense data ${periodInfo} and return a comprehensive textual report with:
+            - Executive summary
+            - Total expenses and average per transaction
+            - Category breakdown with percentages and amounts
+            - Top spending categories
+            - Notable patterns and insights
+            - Financial recommendations and money-saving tips
+            
+            Format the response as a professional financial report with clear sections and bullet points where appropriate.
+            Keep it plain text (no JSON, no markdown fences).
+            
+            EXPENSE_DATA: ${JSON.stringify(expenses)}`
 
             const result = await model.generateContent(prompt)
             const response = await result.response
             const text = response.text()
-            
-            // Extract JSON from response
-            const jsonMatch = text.match(/\{[\s\S]*\}/)
-            if (jsonMatch) {
-                return JSON.parse(jsonMatch[0])
-            } else {
-                throw new Error('Invalid AI response format')
-            }
+            console.debug('Raw AI response:', text)
+            return text
         } catch (error) {
             console.error('AI generation error:', error)
             throw error
         }
     }
 
-    const createPDFWithJsPDF = (reportData, expenses) => {
-        const doc = new jsPDF()
+    const generatePDF = (reportText) => {
+        const doc = new jsPDF();
+        const pageHeight = doc.internal.pageSize.height;
+        const margin = 20;
+        const lineHeight = 7;
+        let yPosition = margin;
+
+        // Add title
+        doc.setFontSize(18);
+        doc.setFont(undefined, 'bold');
         
-        // Page dimensions and margins
-        const pageHeight = doc.internal.pageSize.height
-        const margin = 20
-        const maxY = pageHeight - margin
-        let yPos = margin
-        
-        // Helper function to add new page if needed
-        const addPageIfNeeded = (requiredSpace = 20) => {
-            if (yPos + requiredSpace > maxY) {
-                doc.addPage()
-                yPos = margin
-                return true
-            }
-            return false
+        let title = 'Expense Analysis Report';
+        if (filterType === 'month' && selectedMonth) {
+            const [year, month] = selectedMonth.split('-');
+            const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
+            title += ` - ${monthName} ${year}`;
+        } else if (filterType === 'week' && selectedWeek) {
+            title += ` - Week ${selectedWeek}`;
         }
         
-        // Title
-        doc.setFontSize(24)
-        doc.setTextColor(37, 99, 235) // Blue color
-        doc.text('Expense Analysis Report', 105, yPos, { align: 'center' })
-        yPos += 15
-        
-        doc.setFontSize(12)
-        doc.setTextColor(107, 114, 128) // Gray color
-        doc.text(`Generated on ${new Date().toLocaleDateString()}`, 105, yPos, { align: 'center' })
-        yPos += 20
-        
-        // Executive Summary
-        addPageIfNeeded(30)
-        doc.setFontSize(18)
-        doc.setTextColor(31, 41, 55)
-        doc.text('Executive Summary', margin, yPos)
-        yPos += 15
-        
-        doc.setFontSize(12)
-        doc.setTextColor(75, 85, 99)
-        
-        // Summary grid
-        const summaryData = [
-            ['Total Expenses', `$${reportData.summary.totalExpenses.toFixed(2)}`],
-            ['Average Expense', `$${reportData.summary.averageExpense.toFixed(2)}`],
-            ['Categories', `${reportData.summary.totalCategories}`],
-            ['Date Range', reportData.summary.dateRange]
-        ]
-        
-        summaryData.forEach(([label, value], index) => {
-            addPageIfNeeded(15)
-            const xPos = margin + (index % 2) * 85
-            if (index % 2 === 0 && index > 0) yPos += 15
-            
-            doc.setFontSize(10)
-            doc.setTextColor(107, 114, 128)
-            doc.text(label, xPos, yPos)
-            
-            doc.setFontSize(14)
-            doc.setTextColor(31, 41, 55)
-            doc.text(value, xPos, yPos + 8)
-        })
-        
-        // Spending Patterns Analysis
-        addPageIfNeeded(40)
-        yPos += 25
-        doc.setFontSize(18)
-        doc.setTextColor(31, 41, 55)
-        doc.text('Spending Patterns Analysis', margin, yPos)
-        
-        // Calculate additional insights
-        const totalAmount = expenses.reduce((sum, exp) => sum + Number(exp.amount), 0)
-        const avgAmount = totalAmount / expenses.length
-        const highestExpense = Math.max(...expenses.map(exp => Number(exp.amount)))
-        const lowestExpense = Math.min(...expenses.map(exp => Number(exp.amount)))
-        
-        yPos += 15
-        doc.setFontSize(12)
-        doc.setTextColor(75, 85, 99)
-        
-        addPageIfNeeded(25)
-        doc.text('💰 Expense Range:', margin, yPos)
-        yPos += 8
-        doc.setFontSize(10)
-        doc.text(`   Highest: $${highestExpense.toFixed(2)}`, margin + 5, yPos)
-        yPos += 6
-        doc.text(`   Lowest: $${lowestExpense.toFixed(2)}`, margin + 5, yPos)
-        yPos += 6
-        doc.text(`   Variance: $${(highestExpense - lowestExpense).toFixed(2)}`, margin + 5, yPos)
-        
-        yPos += 10
-        addPageIfNeeded(25)
-        doc.setFontSize(12)
-        doc.text('📊 Spending Distribution:', margin, yPos)
-        yPos += 8
-        doc.setFontSize(10)
-        doc.text(`   Total Transactions: ${expenses.length}`, margin + 5, yPos)
-        yPos += 6
-        doc.text(`   Average per Transaction: $${avgAmount.toFixed(2)}`, margin + 5, yPos)
-        yPos += 6
-        doc.text(`   Standard Deviation: $${calculateStandardDeviation(expenses).toFixed(2)}`, margin + 5, yPos)
-        
-        // Monthly Spending Trends
-        addPageIfNeeded(30)
-        yPos += 15
-        doc.setFontSize(18)
-        doc.setTextColor(31, 41, 55)
-        doc.text('Monthly Spending Trends', margin, yPos)
-        
-        // Get monthly spending data
-        const monthlySpending = {}
-        expenses.forEach(exp => {
-            const month = new Date(exp.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
-            monthlySpending[month] = (monthlySpending[month] || 0) + Number(exp.amount)
-        })
-        
-        const topMonths = Object.entries(monthlySpending)
-            .sort(([,a], [,b]) => b - a)
-            .slice(0, 3)
-        
-        yPos += 15
-        doc.setFontSize(12)
-        doc.setTextColor(75, 85, 99)
-        
-        topMonths.forEach(([month, amount], index) => {
-            addPageIfNeeded(8)
-            doc.text(`${month}: $${amount.toFixed(2)}`, margin + 5, yPos)
-            yPos += 6
-        })
-        
-        // Category Performance Analysis
-        addPageIfNeeded(40)
-        yPos += 10
-        doc.setFontSize(18)
-        doc.setTextColor(31, 41, 55)
-        doc.text('Category Performance Analysis', margin, yPos)
-        
-        const categoryInsights = reportData.categoryBreakdown
-            .sort((a, b) => b.total - a.total)
-            .map((cat, index) => ({
-                ...cat,
-                rank: index + 1,
-                trend: cat.percentage > 20 ? 'High' : cat.percentage > 10 ? 'Medium' : 'Low'
-            }))
-        
-        yPos += 15
-        doc.setFontSize(12)
-        doc.setTextColor(75, 85, 99)
-        
-        categoryInsights.forEach((cat, index) => {
-            addPageIfNeeded(15)
-            doc.text(`#${cat.rank} ${cat.category} (${cat.trend} Spending)`, margin + 5, yPos)
-            yPos += 6
-            doc.setFontSize(10)
-            doc.text(`   $${cat.total.toFixed(2)} (${cat.percentage.toFixed(1)}%) - ${cat.count} expenses`, margin + 10, yPos)
-            yPos += 8
-            doc.setFontSize(12)
-        })
-        
-        // AI-Generated Insights
-        addPageIfNeeded(30)
-        yPos += 10
-        doc.setFontSize(18)
-        doc.setTextColor(31, 41, 55)
-        doc.text('AI-Generated Insights', margin, yPos)
-        
-        yPos += 15
-        doc.setFontSize(12)
-        doc.setTextColor(75, 85, 99)
-        
-        reportData.insights.forEach((insight, index) => {
-            addPageIfNeeded(10)
-            doc.text(`💡 ${insight}`, margin + 5, yPos)
-            yPos += 8
-        })
-        
-        // Strategic Recommendations
-        addPageIfNeeded(30)
-        yPos += 10
-        doc.setFontSize(18)
-        doc.setTextColor(31, 41, 55)
-        doc.text('Strategic Recommendations', margin, yPos)
-        
-        yPos += 15
-        doc.setFontSize(12)
-        doc.setTextColor(75, 85, 99)
-        
-        reportData.recommendations.forEach((rec, index) => {
-            addPageIfNeeded(10)
-            doc.text(`✅ ${rec}`, margin + 5, yPos)
-            yPos += 8
-        })
-        
-        // Financial Health Assessment
-        addPageIfNeeded(50)
-        yPos += 15
-        doc.setFontSize(18)
-        doc.setTextColor(31, 41, 55)
-        doc.text('Financial Health Assessment', margin, yPos)
-        
-        yPos += 15
-        doc.setFontSize(12)
-        doc.setTextColor(75, 85, 99)
-        
-        const healthTips = [
-            '🎯 Budget Management: Set category-specific budgets for high-spending areas',
-            '📈 Savings Opportunities: Optimize recurring expenses to increase savings',
-            '🔍 Expense Tracking: Monitor spending habits for better decisions',
-            '💡 Smart Spending: Look for deals and consolidation opportunities'
-        ]
-        
-        healthTips.forEach((tip, index) => {
-            addPageIfNeeded(10)
-            doc.text(tip, margin + 5, yPos)
-            yPos += 8
-        })
-        
-        // Footer
-        addPageIfNeeded(25)
-        yPos += 20
-        doc.setFontSize(10)
-        doc.setTextColor(107, 114, 128)
-        doc.text('Report generated by Expense Tracker Analytics | AI-Powered Financial Insights', 105, yPos, { align: 'center' })
-        
-        return doc
-    }
+        doc.text(title, margin, yPosition);
+        yPosition += lineHeight * 2;
 
-    // Helper function to calculate standard deviation
-    const calculateStandardDeviation = (expenses) => {
-        const amounts = expenses.map(exp => Number(exp.amount));
-        const mean = amounts.reduce((sum, amount) => sum + amount, 0) / amounts.length;
-        const squaredDiffs = amounts.map(amount => Math.pow(amount - mean, 2));
-        const avgSquaredDiff = squaredDiffs.reduce((sum, diff) => sum + diff, 0) / squaredDiffs.length;
-        return Math.sqrt(avgSquaredDiff);
+        // Add generated date
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        doc.text(`Generated on: ${new Date().toLocaleDateString()}`, margin, yPosition);
+        yPosition += lineHeight * 2;
+
+        // Add content
+        doc.setFontSize(11);
+        const lines = reportText.split('\n');
+        
+        lines.forEach(line => {
+            // Check if we need a new page
+            if (yPosition > pageHeight - margin) {
+                doc.addPage();
+                yPosition = margin;
+            }
+
+            // Handle long lines by splitting them
+            const maxWidth = doc.internal.pageSize.width - 2 * margin;
+            const wrappedLines = doc.splitTextToSize(line || ' ', maxWidth);
+            
+            wrappedLines.forEach(wrappedLine => {
+                if (yPosition > pageHeight - margin) {
+                    doc.addPage();
+                    yPosition = margin;
+                }
+                doc.text(wrappedLine, margin, yPosition);
+                yPosition += lineHeight;
+            });
+        });
+
+        return doc;
     }
 
     const handleGenerateReport = async () => {
-        if (data.length === 0) {
-            alert('No expenses data available to generate report')
+        if (filteredData.length === 0) {
+            alert('No expenses data available for the selected period to generate report')
             return
         }
         
         setIsGenerating(true)
         try {
-            // Generate AI report
-            const aiReport = await generateAIReport(data)
-            setReportData(aiReport)
-            
-            // Create and download PDF using jsPDF
-            const pdfDoc = createPDFWithJsPDF(aiReport, data)
-            pdfDoc.save(`expense_analysis_report_${new Date().toISOString().slice(0, 10)}.pdf`)
-            
-            alert('Report generated and downloaded successfully!')
+            const raw = await generateAiRawText(filteredData)
+            setAiRawResponse(raw || '')
         } catch (error) {
             console.error('Report generation failed:', error)
-            alert('Failed to generate report. Please try again.')
+            alert('Failed to generate AI report. Check console for details.')
         } finally {
             setIsGenerating(false)
         }
+    }
+
+    const handleDownloadPDF = () => {
+        if (!aiRawResponse) {
+            alert('Please generate a report first')
+            return
+        }
+
+        const doc = generatePDF(aiRawResponse);
+        
+        let filename = 'expense-analysis-report';
+        if (filterType === 'month' && selectedMonth) {
+            filename += `-${selectedMonth}`;
+        } else if (filterType === 'week' && selectedWeek) {
+            filename += `-${selectedWeek}`;
+        }
+        filename += '.pdf';
+
+        doc.save(filename);
+    }
+
+    const getCurrentMonth = () => {
+        const now = new Date();
+        return now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    }
+
+    const getCurrentWeek = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const jan1 = new Date(year, 0, 1);
+        const days = Math.floor((now - jan1) / (24 * 60 * 60 * 1000));
+        const week = Math.ceil((days + jan1.getDay() + 1) / 7);
+        return `${year}-W${String(week).padStart(2, '0')}`;
     }
 
     return (
@@ -366,48 +248,127 @@ export default function Analytics() {
                                 Spend Smarter: Your Expense Analysis
                             </div>
                         </div>
-                        <button 
-                            className="analytics-action-button" 
-                            onClick={handleGenerateReport}
-                            disabled={isGenerating || data.length === 0}
-                        >
-                            {isGenerating ? 'Generating Report...' : 'Generate Report'}
-                        </button>
+                        <div className="analytics-actions">
+                            <button 
+                                className="analytics-action-button" 
+                                onClick={handleGenerateReport}
+                                disabled={isGenerating || filteredData.length === 0}
+                            >
+                                {isGenerating ? 'Generating Report...' : 'Generate Report'}
+                            </button>
+                            {aiRawResponse && (
+                                <button 
+                                    className="analytics-action-button analytics-download-button" 
+                                    onClick={handleDownloadPDF}
+                                >
+                                    Download PDF
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                    
+                    {/* Filter Controls */}
+                    <div className="filter-controls">
+                        <h3 className="filter-title">Filter Options</h3>
+                        <div className="filter-options">
+                            <div className="filter-option">
+                                <label className="filter-label">
+                                    <input
+                                        type="radio"
+                                        name="filterType"
+                                        value="all"
+                                        checked={filterType === 'all'}
+                                        onChange={(e) => setFilterType(e.target.value)}
+                                        className="filter-radio"
+                                    />
+                                    <span className="filter-text">All Time</span>
+                                </label>
+                            </div>
+                            
+                            <div className="filter-option">
+                                <label className="filter-label">
+                                    <input
+                                        type="radio"
+                                        name="filterType"
+                                        value="month"
+                                        checked={filterType === 'month'}
+                                        onChange={(e) => setFilterType(e.target.value)}
+                                        className="filter-radio"
+                                    />
+                                    <span className="filter-text">Monthly</span>
+                                </label>
+                                {filterType === 'month' && (
+                                    <input
+                                        type="month"
+                                        value={selectedMonth || getCurrentMonth()}
+                                        onChange={(e) => setSelectedMonth(e.target.value)}
+                                        className="filter-date-input"
+                                    />
+                                )}
+                            </div>
+                            
+                            <div className="filter-option">
+                                <label className="filter-label">
+                                    <input
+                                        type="radio"
+                                        name="filterType"
+                                        value="week"
+                                        checked={filterType === 'week'}
+                                        onChange={(e) => setFilterType(e.target.value)}
+                                        className="filter-radio"
+                                    />
+                                    <span className="filter-text">Weekly</span>
+                                </label>
+                                {filterType === 'week' && (
+                                    <input
+                                        type="week"
+                                        value={selectedWeek || getCurrentWeek()}
+                                        onChange={(e) => setSelectedWeek(e.target.value)}
+                                        className="filter-date-input"
+                                    />
+                                )}
+                            </div>
+                        </div>
                     </div>
                     
                     <div className="Analytics-content">
-                        <h1>This is the analytics page</h1>
-                        <div>
-                            Total expenses available: {data.length}
+                        {/* <h1>Analytics Dashboard</h1> */}
+                        <div style={{ marginBottom: '1rem' }}>
+                            {/* <strong>Total expenses available:</strong> {data.length} */}
+                        </div>
+                        <div style={{ marginBottom: '1rem' }}>
+                            {/* <strong>Filtered expenses:</strong> {filteredData.length} */}
+                            {filterType === 'month' && selectedMonth && (
+                                <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
+                                    ({selectedMonth})
+                                </span>
+                            )}
+                            {filterType === 'week' && selectedWeek && (
+                                <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
+                                    (Week {selectedWeek})
+                                </span>
+                            )}
                         </div>
                         
-                        {reportData && (
-                            <div className="report-preview">
-                                <h2>Report Preview</h2>
-                                <div className="report-summary">
-                                    <h3>Summary</h3>
-                                    <p>Total: ${reportData.summary.totalExpenses.toFixed(2)}</p>
-                                    <p>Average: ${reportData.summary.averageExpense.toFixed(2)}</p>
-                                    <p>Categories: {reportData.summary.totalCategories}</p>
+                        {aiRawResponse && (
+                            <div className="report-preview" style={{ marginTop: '1rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                    <h2>AI Generated Report</h2>
                                 </div>
-                                
-                                <div className="report-insights">
-                                    <h3>Key Insights</h3>
-                                    <ul>
-                                        {reportData.insights.map((insight, index) => (
-                                            <li key={index}>{insight}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                
-                                <div className="report-recommendations">
-                                    <h3>Recommendations</h3>
-                                    <ul>
-                                        {reportData.recommendations.map((rec, index) => (
-                                            <li key={index}>{rec}</li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                <pre style={{ 
+                                    whiteSpace: 'pre-wrap', 
+                                    background: '#f9fafb', 
+                                    padding: '12px', 
+                                    borderRadius: '6px', 
+                                    border: '1px solid #e5e7eb', 
+                                    maxHeight: '70vh', 
+                                    overflow: 'auto',
+                                    fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+                                    fontSize: '14px',
+                                    lineHeight: '1.5'
+                                }}>
+{aiRawResponse}
+                                </pre>
                             </div>
                         )}
                     </div>

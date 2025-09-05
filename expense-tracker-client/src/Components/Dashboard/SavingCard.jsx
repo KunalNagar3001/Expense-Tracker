@@ -58,7 +58,7 @@ const SavingCard = () => {
                   ></div>
                 </div>
                 <div className="savingd-card-info">
-                  <span>${saving.amount} / ${saving.goalAmount}</span>
+                  <span>₹{saving.amount} / ₹{saving.goalAmount}</span>
                   <span>{Math.round(progressPercentage)}%</span>
                 </div>
                 <div className="savingd-card-date">

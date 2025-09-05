@@ -90,3 +90,300 @@
 .dark .Analytics-content {
     color: #94a3b8;
 }
+
+/* Analytics Page Styles - Add these to your existing Analytics.css file */
+
+.Analytics-Page {
+    display: flex;
+    flex-direction: row;
+    background-color: #f3f4f6;
+}
+
+.dark .Analytics-Page {
+    background-color: #0b1020;
+}
+
+.Analytics-Container {
+    width: 80vw;
+    background-color: #fff;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.dark .Analytics-Container {
+    background-color: #0f172a;
+    color: #e5e7eb;
+}
+
+.Analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.dark .Analytics-header {
+    border-bottom-color: #334155;
+}
+
+.Analytics-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.Analytics-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.dark .Analytics-title {
+    color: #e5e7eb;
+}
+
+.Analytics-subHeader {
+    color: #6b7280;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.dark .Analytics-subHeader {
+    color: #94a3b8;
+}
+
+/* Analytics Actions */
+.analytics-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.analytics-action-button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.analytics-action-button:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+}
+
+.analytics-action-button:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.dark .analytics-action-button:disabled {
+    background-color: #475569;
+}
+
+.analytics-download-button {
+    background-color: #059669;
+}
+
+.analytics-download-button:hover {
+    background-color: #047857;
+    box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
+}
+
+/* Filter Controls */
+.filter-controls {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dark .filter-controls {
+    background-color: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.filter-title {
+    margin: 0 0 1.25rem 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.dark .filter-title {
+    color: #e5e7eb;
+}
+
+.filter-options {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.filter-option {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 120px;
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
+}
+
+.dark .filter-label {
+    color: #d1d5db;
+}
+
+.filter-radio {
+    width: 18px;
+    height: 18px;
+    accent-color: #2563eb;
+    cursor: pointer;
+}
+
+.filter-text {
+    font-size: 1rem;
+    user-select: none;
+}
+
+.filter-date-input {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    background-color: #fff;
+    color: #374151;
+    transition: all 0.2s ease;
+    margin-left: 1.5rem;
+    min-width: 150px;
+}
+
+.filter-date-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.dark .filter-date-input {
+    background-color: #0f172a;
+    border-color: #475569;
+    color: #e5e7eb;
+}
+
+.dark .filter-date-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.Analytics-content {
+    color: #6b7280;
+    font-size: 1.1rem;
+    padding: 2rem 0;
+}
+
+.dark .Analytics-content {
+    color: #94a3b8;
+}
+
+/* Report Preview Styling */
+.report-preview {
+    margin-top: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.dark .report-preview {
+    background-color: #1e293b;
+}
+
+.report-preview h2 {
+    margin: 0 0 1rem 0;
+    padding: 1rem 1.5rem;
+    background-color: #f8fafc;
+    color: #111827;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dark .report-preview h2 {
+    background-color: #334155;
+    color: #e5e7eb;
+    border-bottom-color: #475569;
+}
+
+.report-preview pre {
+    margin: 0;
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    color: #374151;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 70vh;
+    overflow-y: auto;
+    border: none;
+}
+
+.dark .report-preview pre {
+    background-color: #0f172a;
+    color: #d1d5db;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .Analytics-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .analytics-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .filter-options {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .filter-date-input {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+    
+    .Analytics-Container {
+        width: 100vw;
+        padding: 1rem;
+    }
+}
